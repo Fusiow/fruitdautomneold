@@ -9,8 +9,8 @@
 
 ### E - commerce
 
-  - [ ] Faire le logo
-  - [ ] Menu Fixe Gauche
+  - [X] Faire le logo
+  - [X] Menu Fixe Gauche
   - [ ] Page d'accueil
   - [ ] Page Produit
 
