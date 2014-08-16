@@ -2,24 +2,91 @@
 <html>
 	<head>
 		<style>
-			html, body {
+			html {
+				background: url("./11266109_l.jpg") no-repeat center center fixed;
+				background-size: 100% 100%;
 				width: 100%;
 				padding: 0;
 				margin: 0;
 				height: 100%;
 			}
-			#content {
-				background: url("./11266109_l.jpg");
-				background-size: contain;
-				background-repeat: no-repeat;
-				border: 1px solid black;
-				height: 100%;
+			
+			.content {
+				overflow: hidden;
+				width: 70%;
+				height: 40%;
+				max-height: 470px;
+				margin: 14% 0 0 17% ;
+			}
+
+			.slideshow {
+				background: red;
+				width: 80%;
+				height: 40%;
+				max-height: 290px;
+				overflow: hidden;
+				margin: 2% auto;
+			}
+
+			.slideshow img {
+				max-width: 100%;
+			}
+
+			.home_quote {
+				font-style: bold;
+				width: 70%%;
+				margin: auto;
+			}
+			
+			.quote {
+				color: white;
+				font-weight: bold;
+				text-align: center;
+				margin-left: 1%;
+			}
+
+			.quote_author {
+				color: white;
+				font-weight: bold;
+				padding-right: 3%;
+				text-align: right;
+			}
+
+			.button_enter {
+				text-align: center;
+				background: rgba(210, 160, 58, 1);
+				border-left: 1px solid black;
+				border-right: 1px solid black;
+				border-bottom: 1px solid black;
+				box-shadow: 0px 10px 10px 3px black;
+				width:15%;
+				margin: 0.4% 45%;
+			}
+
+			.button_enter a {
+				color: black;
 			}
 		</style>
+		<meta charset="UTF-8">
 	</head>
 	<body>
-		<div id="content">
-		<h1>PATATE</h1>
+		<div class="content">
+		<div class="slideshow">
+			<img src="./miraccueil 004.JPG">
+		</div>
+		<div class="home_quote">
+		<p class="quote">
+			Devenir fruit d'automne sentir naître en soi l'âme fondante du fruit :<br />
+			cette douceur, cette transparence dorée et cette soif de tomber.  
+			Se détacher, non par orgueil ou par lassitude,  mais par excès de pesanteur et de sucs. <br />
+			Se détacher comme un fruit d'automne.
+<br /></p>
+			<p class="quote_author"><u> L'Echelle de Jacob </u><br />
+				Gustave Thibon</p>
+		</div>
+		</div>
+		<div class="button_enter">
+			<a href="../fruitdautomne/index.php">Entrez dans mon monde</a>
 		</div>
 	</body>
 </html>
