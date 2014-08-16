@@ -1,0 +1,50 @@
+
+TIMING CATEGORY:db
+--------------------------------
+Phase:beforeImport
+- Class:Magmi_ProductImportEngine :0.0002 - Class:Magmi_CSVDataSource :0.0001 
+Phase:startImport
+- Class:Magmi_ProductImportEngine :0.0003 - Class:Magmi_CSVDataSource :0.0003 
+Phase:processColumnList
+- Class:Magmi_ProductImportEngine :0.0002 - Class:ImageAttributeItemProcessor :0.0001 - Class:Magmi_DefaultAttributeItemProcessor :0.0002 
+Phase:processItemBeforeId
+- Class:Magmi_ProductImportEngine :0.0083 - Class:ImageAttributeItemProcessor :0.0051 - Class:Magmi_DefaultAttributeItemProcessor :0.0043 
+Phase:processItemAfterId
+- Class:Magmi_ProductImportEngine :0.0197 - Class:ImageAttributeItemProcessor :0.0062 - Class:Magmi_DefaultAttributeItemProcessor :0.0154 
+Phase:processItemAfterImport
+- Class:Magmi_ProductImportEngine :0.0065 
+Phase:endImport
+
+Phase:indb
+- Class:Magmi_ProductImportEngine :0.0003 - Class:ImageAttributeItemProcessor :0.0003 
+Phase:afterImport
+
+TIMING CATEGORY:global
+--------------------------------
+Phase:beforeImport
+- Class:Magmi_ProductImportEngine :0.0002 - Class:Magmi_CSVDataSource :0.0001 
+Phase:startImport
+- Class:Magmi_ProductImportEngine :0.0003 - Class:Magmi_CSVDataSource :0.0003 
+Phase:processColumnList
+- Class:Magmi_ProductImportEngine :0.0002 - Class:ImageAttributeItemProcessor :0.0001 - Class:Magmi_DefaultAttributeItemProcessor :0.0002 
+Phase:processItemBeforeId
+- Class:Magmi_ProductImportEngine :0.0083 - Class:ImageAttributeItemProcessor :0.0051 - Class:Magmi_DefaultAttributeItemProcessor :0.0043 
+Phase:processItemAfterId
+- Class:Magmi_ProductImportEngine :0.0197 - Class:ImageAttributeItemProcessor :0.0062 - Class:Magmi_DefaultAttributeItemProcessor :0.0154 
+Phase:processItemAfterImport
+- Class:Magmi_ProductImportEngine :0.0065 
+Phase:endImport
+
+Phase:afterImport
+
+TIMING CATEGORY:line
+--------------------------------
+Phase:processItemBeforeId
+
+Phase:processItemAfterId
+- Class:Magmi_ProductImportEngine :0.0001 - Class:Magmi_DefaultAttributeItemProcessor :0.0001 
+Phase:processItemAfterImport
+
+Phase:endImport
+
+Phase:afterImport

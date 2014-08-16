@@ -1,0 +1,27 @@
+title:MAGMI by dweeves - version:0.7.20_git
+startup:Running Magmi Product Import Engine v1.8.2 by dweeves
+startup:Import Profile:default
+startup:Import Mode:create
+step:step:100%
+plugin;Magmi_CSVDataSource;pluginhello:CSV Datasource-1.3.1-Dweeves- 
+plugin;ImageAttributeItemProcessor;pluginhello:Image attributes processor-1.0.29-Dweeves-http://wiki.magmi.org/index.php?title=Image_attributes_processor 
+plugin;Magmi_DefaultAttributeItemProcessor;pluginhello:Standard Attribute Import-1.0.6-Dweeves- 
+plugin;Magmi_CSVDataSource;startup:CSV Datasource v1.3.1 - Importing CSV : /var/www/fruitdautomne/var/import/magmi.csv using separator [ , ] enclosing [ " ]
+startup:Performing Datasouce Lookup...
+lookup:113:0.007282018661499
+startup:Found 113 records, took 0.007282018661499 sec
+plugin;Magmi_CSVDataSource;startup:CSV Datasource v1.3.1 - No BOM detected, assuming File is UTF8 without BOM...
+plugin;Magmi_CSVDataSource;startup:CSV Datasource v1.3.1 - 12 CSV headers columns found
+columns:12
+plugin;Magmi_DefaultAttributeItemProcessor;startup:Standard Attribute Import v1.0.6 - Newly created items will have default values for columns:store,status,visibility,page_layout
+startup:Ajusted processed columns:16
+plugin;ImageAttributeItemProcessor;warning:Image attributes processor v1.0.29 - Véra.jpg cannot be found in images path
+plugin;ImageAttributeItemProcessor;warning:Image attributes processor v1.0.29 - Lobélia.jpg cannot be found in images path
+plugin;ImageAttributeItemProcessor;warning:Image attributes processor v1.0.29 - Salvia.jpg cannot be found in images path
+plugin;ImageAttributeItemProcessor;warning:Image attributes processor v1.0.29 - Rosa Morada.jpg cannot be found in images path
+itime:113 - 3.5450398921967 - 3.5450398921967
+dbtime:2216 - 0.96558094024658 - 0.96558094024658 - 2216
+itime:113 - 3.5579168796539 - 0.012759923934937
+dbtime:2238 - 0.97072458267212 - 0.0051436424255371 - 22
+info:Skus imported OK:113/113
+end:Import Ended
