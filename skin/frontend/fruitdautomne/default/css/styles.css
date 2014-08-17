@@ -490,18 +490,22 @@ select,
 table,
 textarea {
   font-family: "Helvetica Neue", Verdana, Arial, sans-serif;
-  color: #636363;
+  color: rgba(56, 7, 7, 1);
   font-size: 14px;
   line-height: 1.5;
 }
 
+input {
+  background-color: #C5AC40 !important;
+
+}
+
 a {
-  color: #3399cc;
+  color: white;
   text-decoration: none;
 }
 
 a:hover {
-  color: #2e8ab8;
   text-decoration: underline;
 }
 
@@ -880,30 +884,26 @@ body:not(.customer-account) .block:first-child .block-title {
 .cart-table .button,
 .sidebar .actions .button,
 .button.button-secondary {
-  background: #dddddd;
-  color: #636363;
+  color: #FFFFFF;
   padding: 7px 15px;
 }
 .cart .buttons-set .button:hover,
 .cart-table .button:hover,
 .sidebar .actions .button:hover,
 .button.button-secondary:hover {
-  background: #d0d0d0;
   cursor: pointer;
 }
 .cart .buttons-set .button:active,
 .cart-table .button:active,
 .sidebar .actions .button:active,
 .button.button-secondary:active {
-  background: #c4c4c4;
   color: #636363;
 }
 .cart .buttons-set .button:focus,
 .cart-table .button:focus,
 .sidebar .actions .button:focus,
 .button.button-secondary:focus {
-  color: #636363;
-  background: #c4c4c4;
+  background: none repeat scroll 0% 0% rgba(89, 38, 10, 1);
   outline: none;
 }
 
@@ -912,7 +912,7 @@ body:not(.customer-account) .block:first-child .block-title {
 .cart-table .product-cart-actions .button,
 #co-shipping-method-form .buttons-set .button,
 .footer .button {
-  background: #3399cc;
+  background: none repeat scroll 0% 0% rgba(89, 38, 10, 1);
   display: inline-block;
   padding: 7px 15px;
   border: 0;
@@ -930,21 +930,18 @@ body:not(.customer-account) .block:first-child .block-title {
 .cart-table .product-cart-actions .button:hover,
 #co-shipping-method-form .buttons-set .button:hover,
 .footer .button:hover {
-  background: #2e8ab8;
   cursor: pointer;
 }
 .button:active,
 .cart-table .product-cart-actions .button:active,
 #co-shipping-method-form .buttons-set .button:active,
 .footer .button:active {
-  background: #297aa3;
   color: #FFFFFF;
 }
 .button:focus,
 .cart-table .product-cart-actions .button:focus,
 #co-shipping-method-form .buttons-set .button:focus,
 .footer .button:focus {
-  background-color: #297aa3;
   outline: none;
   color: #FFFFFF;
 }

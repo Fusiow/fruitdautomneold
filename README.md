@@ -12,7 +12,7 @@
   - [X] Faire le logo
   - [X] Menu Fixe Gauche
   - [X] Page d'accueil
-  - [ ] Page Produit
+  - [X] Page Produit
 
 
 - [X] Export Produit

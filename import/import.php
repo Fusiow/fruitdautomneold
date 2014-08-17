@@ -34,7 +34,7 @@ for ($i = 0; $data = fgetcsv($fd, 1000, ";"); $i++) {
 	$result[$data[0]]["img"] = $data[1];
 	$result[$data[0]]["price"] = $data[6];
 	$result[$data[0]]["sku"] = $data[3];
-	grab_image($data[1], "../media/import/".explode(' ', $data[2])[0].".jpg");
+	grab_image($data[1], "../media/import/".$data[0].".jpg");
 	echo "Image $i on 114\n";
 }
 
@@ -49,7 +49,7 @@ $magmi = array();
 $magmi[0] = array('sku', 'attribute_set', 'type', 'price', 'name', 'description', 'image', 'small_image', 'short_description', 'weight', 'tax_class_id', 'Visibility');
 
 $v = 1;
-foreach ($result as $result) {
+foreach ($result as $name => $result) {
 	$magmi[$v] = array(
 			$result["sku"],
 			"Default",
@@ -57,8 +57,8 @@ foreach ($result as $result) {
 			$result["price"],
 			$result["name"],
 			$result["description"],
-			explode(' ', $result["name"])[0].".jpg",
-			explode(' ', $result["name"])[0].".jpg",
+			$name.".jpg",
+			$name.".jpg",
 			$result["description"],
 			"0",
 			"None",

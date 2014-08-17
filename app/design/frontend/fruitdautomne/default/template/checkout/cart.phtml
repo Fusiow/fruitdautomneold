@@ -49,7 +49,7 @@
     <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
         <?php echo $this->getBlockHtml('formkey'); ?>
         <fieldset>
-            <table id="shopping-cart-table" class="data-table cart-table">
+            <table id="shopping-cart-table" class="data-table cart-table" style='width: 100%'>
                 <col width="1" />
                 <col />
                 <col width="1" />
@@ -140,12 +140,6 @@
         <div class="col2-set">
             <div class="col-1">
                 <?php echo $this->getChildHtml('crosssell') ?>
-            </div>
-            <div class="col-2">
-                <?php /* Extensions placeholder */ ?>
-                <?php echo $this->getChildHtml('checkout.cart.extra') ?>
-                <?php echo $this->getChildHtml('coupon') ?>
-                <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
             </div>
         </div>
         <div class="totals">

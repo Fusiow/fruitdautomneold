@@ -27,20 +27,21 @@
  * @var Mage_Page_Block_Html_Header $this
  */
 ?>
-<div class="header-container">
-    <div class="header">
-        <?php if ($this->getIsHomePage()):?>
-        <h1 class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a></h1>
-        <?php else:?>
-        <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
-        <?php endif?>
-        <div class="quick-access">
-            <?php echo $this->getChildHtml('topSearch') ?>
-            <p class="welcome-msg"><?php echo $this->getChildHtml('welcome') ?> <?php echo $this->getAdditionalHtml() ?></p>
-            <?php echo $this->getChildHtml('topLinks') ?>
-            <?php echo $this->getChildHtml('store_language') ?>
-        </div>
-        <?php echo $this->getChildHtml('topContainer'); ?>
-    </div>
-</div>
-<?php echo $this->getChildHtml('topMenu') ?>
+<header>
+	<div id="menu">
+		<img class='logo' src="<?= $this->GetLogoSrc() ?>">
+		<div class='title'>fruit d'automne</div>
+		<input type="text" placeholder="Recherche...">
+		<ul>
+			<li><a href="#">ACCUEIL</a></li>
+			<li><a href="#">L'HISTOIRE</a></li>
+			<li><a href="#">BIJOUX</a></li>
+			<li><a href="#">OEUVRES</a></li>
+			<li><a href="#">PANIER</a></li>
+			<li><a href="#">ME CONNECTER</a></li>
+			<li><a href="#">M'INSCRIRE</a></li>
+			<li><a href="#">CONTACT</a></li>
+			<li class='last'><a href="#">CGV</a></li>
+		</ul>
+	</div>
+</header>
