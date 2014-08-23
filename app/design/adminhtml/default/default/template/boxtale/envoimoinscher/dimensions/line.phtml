@@ -1,0 +1,50 @@
+<?php
+/*
+    This file is part of EnvoiMoinsCher's shipping plugin for Magento.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/** 
+ * @category    Boxtale
+ * @package     Boxtale_Envoimoinscher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher.com
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://www.gnu.org/licenses  GNU Lesser General Public License (LGPL)
+ */
+?>
+<style type="text/css">
+.smallInput {width:50px;}
+.form-list td {padding: 5px;}
+.hidden {display:none;}
+</style>
+
+<p>Sur cette page, vous pouvez personnaliser les dimensions maximum de vos envois par tranches de poids. Nous vous recommandons d'effectuer ce travail de personnalisation car les dimensions constituent un des critères déterminants du prix des offres de livraison. Indiquez ainsi les dimensions les plus courantes pour obtenir les tarifs les plus proches de la réalité
+<br /><br />Sans personnalisation, ce sont les dimensions par défaut, élaborées par EnvoiMoinsCher, qui seront affichées
+</p>
+
+<?php if($this->showdimmessage) { ?>
+<div id="messages"><ul class="messages"><li class="success-msg"><ul><li><span>Les dimensions ont été mises à jour.</span></li></ul></li></ul></div>
+<?php } ?>
+
+      <table class="form-list" cellspacing="0"> 
+<?php foreach($this->dimensions as $d => $dimension) { ?>
+        <tr>
+          <td><label>Poids : jusqu'à <input type="text" name="weight_<?php echo $dimension['id_ed'];?>" id="weight_<?php echo $dimension['id_ed'];?>" value="<?php echo $dimension['weight_ed'];?>" class="input-text" /> kg</label></td>
+          <td><label>Longueur max : <input type="text" name="length_<?php echo $dimension['id_ed'];?>" id="length_<?php echo $dimension['id_ed'];?>" value="<?php echo $dimension['length_ed'];?>" class="input-text" /> cm</label></td>
+          <td><label>Largeur max : <input type="text" name="width_<?php echo $dimension['id_ed'];?>" id="width_<?php echo $dimension['id_ed'];?>" value="<?php echo $dimension['width_ed'];?>" class="input-text" /> cm</label></td>
+          <td><label>Hauteur max : <input type="text" name="height_<?php echo $dimension['id_ed'];?>" id="height_<?php echo $dimension['id_ed'];?>" value="<?php echo $dimension['height_ed'];?>" class="input-text" /> cm</label></td>
+        </tr>
+<?php } ?>
+        <input type="hidden" name="form_key" value="<?php echo $this->getFormKey(); ?>" />
+      </table>

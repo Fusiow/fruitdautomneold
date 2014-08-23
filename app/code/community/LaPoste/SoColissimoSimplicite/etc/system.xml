@@ -1,0 +1,260 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * LaPoste_SoColissimoSimplicite
+ * 
+ * @category  LaPoste
+ * @package   LaPoste_SoColissimoSimplicite
+ * @copyright Copyright (c) 2010 La Poste
+ * @author         Smile (http://www.smile.fr)
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <sections>
+        <carriers>
+            <groups>
+                <socolissimosimplicite translate="label" module="socolissimosimplicite">
+                    <label>So Colissimo</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label" module="shipping">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <title translate="label">
+                            <label>Nom du transporteur</label>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                        <name translate="label comment">
+                            <label>Nom du mode de livraison</label>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Nom du mode de livraison affiché dans le tunnel de commande à l'étape "Mode de livraison".]]></comment>
+                        </name>
+                        <name_home translate="label comment">
+                            <label>Nom du mode de livraison (domicile)</label>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Nom du mode de livraison une fois que l'internaute a choisi la livraison à domicile dans l'interface de So Colissimo.]]></comment>
+                        </name_home>
+                        <name_appointment translate="label comment">
+                            <label>Nom du mode de livraison (rendez-vous)</label>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Nom du mode de livraison une fois que l'internaute a choisi la livraison sur rendez-vous dans l'interface de So Colissimo.]]></comment>
+                        </name_appointment>
+                        <name_pickup translate="label comment">
+                            <label>Nom du mode de livraison (point de retrait commerçant)</label>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Nom du mode de livraison une fois que l'internaute a choisi la livraison en point de retrait commerçant dans l'interface de So Colissimo.]]></comment>
+                        </name_pickup>
+                        <name_post_office translate="label comment">
+                            <label>Nom du mode de livraison (bureau de poste)</label>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Nom du mode de livraison une fois que l'internaute a choisi la livraison en bureau de poste dans l'interface de So Colissimo.]]></comment>
+                        </name_post_office>
+                        <selectmessage translate="label">
+                            <label>Message lors de la sélection du mode de livraison</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </selectmessage>
+                        <redirectmessage translate="label">
+                            <label>Message lors de la redirection vers So Colissimo</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </redirectmessage>
+                        <account translate="label">
+                            <label>Identifiant FO</label>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </account>
+                        <encryption_key translate="label">
+                            <label>Clé de cryptage</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </encryption_key>
+                        <url_fo translate="label">
+                            <label>URL de passerelle</label>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </url_fo>
+                        <active_service_is_available
+                            translate="label">
+                            <label>Activer la vérification de la disponibilité</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active_service_is_available>
+                        <url_service_is_available translate="label">
+                            <label>URL de vérification de la disponibilité</label>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </url_service_is_available>
+                        <not_available_message translate="label">
+                            <label>Message en cas d'indisponibilité de la plateforme</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </not_available_message>
+                        <amountbasetype translate="label">
+                            <label>Type des frais de livraison</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>socolissimosimplicite/system_config_source_shipping_amountbasetype
+                            </source_model>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </amountbasetype>
+                        <amountcalculation translate="label comment">
+                            <label>Calcul des frais de livraison</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>170</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Il s’agit des frais d’expédition appliqués par défaut pour tous les modes de livraison en France.<br/>Si <strong>tarif unique</strong>, indiquer le montant (sans devise) ;<br />Si <strong>tarif selon le poids</strong>, indiquer :<br />{"poids en kg": "tarif1", "poids en kg": "tarif2", ...}<br />Le tarif est appliqué pour un poids supérieur ou égal au poids correspondant.<br />Exemple de conditions tarifaires selon le poids :<br/>{"0": "2.90", "0.5": "4.50", "5": "8", "10": "14"}<br/>Si <strong>tarif selon le sous-total du panier</strong>, indiquer :<br />{"montant": "tarif1", "montant": "tarif2", ...}<br />Le tarif est appliqué pour un montant supérieur ou égal au montant correspondant.<br />Exemple de conditions tarifaires selon le montant :<br />{"0": "3", "50": "5", "100": "8", "250": "0"}]]></comment>
+                        </amountcalculation>
+                        <amountbasetype_pickup translate="label">
+                            <label>Type des frais de livraison commerçants</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>socolissimosimplicite/system_config_source_shipping_amountbasetype
+                            </source_model>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </amountbasetype_pickup>
+                        <amountcalculation_pickup translate="label comment">
+                            <label>Calcul des frais de livraison commerçants</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>190</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Il s'agit des frais d'expédition appliqués pour la livraison en point de retrait commerçant.<br />Le fonctionnement est identique au paramètre "Calcul des frais de livraison".<br />Laisser vide pour ne pas appliquer de tarif spécifique à la livraison en point de retrait commerçant.]]></comment>
+                        </amountcalculation_pickup>
+                        <minquotepriceforfree translate="label">
+                            <label>Livraison offerte à partir de (en €)</label>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Laisser vide pour ne pas offrir les frais de livraison.]]>
+                            </comment>
+                        </minquotepriceforfree>
+                        <price_format translate="label comment">
+                            <label>Format des frais de livraison</label>
+                            <sort_order>210</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Format du tarif du mode de livraison So Colissimo, à l'étape de livraison du tunnel de commande.<br />Laisser vide pour garder l'affichage natif de Magento.<br />Le tarif est représenté par "%s".<br />Exemple : avec une valeur "(à partir de %s)" et des frais de livraison de 10€, le prix affiché dans le tunnel de commande sera "(à partir de 10€)".]]></comment>
+                        </price_format>
+                        <min_order_total translate="label" module="payment">
+                            <label>Minimum Order Total</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </min_order_total>
+                        <max_order_total translate="label" module="payment">
+                            <label>Maximum Order Total</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>230</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_order_total>
+                        <max_weight translate="label comment">
+                            <label>Limite de poids</label>
+                            <sort_order>240</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[So Colissimo ne sera pas proposé si le poids dépasse le montant saisi.]]></comment>
+                        </max_weight>
+                        <sallowspecific translate="label" module="shipping">
+                            <label>Ship to Applicable Countries</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>250</sort_order>
+                            <frontend_class>shipping-applicable-country</frontend_class>
+                            <source_model>adminhtml/system_config_source_shipping_allspecificcountries
+                            </source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sallowspecific>
+                        <specificcountry translate="label comment" module="shipping">
+                            <label>Ship to Specific Countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>260</sort_order>
+                            <source_model>adminhtml/system_config_source_country
+                            </source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Les pays compatibles sont la France et la Belgique.]]>
+                            </comment>
+                            <can_be_empty>1</can_be_empty>
+                        </specificcountry>
+                        <sort_order translate="label" module="shipping">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>270</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sort_order>
+                    </fields>
+                </socolissimosimplicite>
+            </groups>
+        </carriers>
+    </sections>
+</config>

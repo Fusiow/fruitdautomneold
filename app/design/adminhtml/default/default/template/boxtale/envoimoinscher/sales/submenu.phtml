@@ -1,0 +1,131 @@
+<?php
+/*
+    This file is part of EnvoiMoinsCher's shipping plugin for Magento.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/** 
+ * @category    Boxtale
+ * @package     Boxtale_Envoimoinscher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher.com
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://www.gnu.org/licenses  GNU Lesser General Public License (LGPL)
+ */
+?>
+<?php if($this->show == 1) { ?>
+<?php if($this->isautomatic == 1) { ?>
+<script type="text/javascript">
+var ordersTodo = <?php echo $this->total - $this->done;?>;
+var ordersDone = <?php echo $this->done;?>;
+var withCheck = <?php echo $this->withcheck;?>;
+var massOrderPassed = <?php echo $this->end;?>; // 0 => not end, 1 => done
+Event.observe(window, 'load', function() {
+  if(ordersTodo > 0 && withCheck == 0 && massOrderPassed != 1)
+  {
+    doOrderRequest();
+  }
+  else if(massOrderPassed == 1)
+  {
+    showFinalMessage();
+  }
+});
+function doOrderRequest()
+{
+  new Ajax.Request("<?php echo Mage::getUrl('envoimoinscher/sales/sendMass', array('order_id' => 0));?>",
+  {
+    evalScripts : true,
+    onSuccess : function(rsp) 
+    {
+      var res = rsp.responseText.evalJSON();
+      tries = 0;
+      ordersTodo--;
+      ordersDone++;
+      $("done").innerHTML = ordersDone;
+      if(ordersTodo == 0 || res.doOthers == 0)
+      {
+        showFinalMessage();
+        return false;
+      }
+      doOrderRequest();
+    },
+    onFailure: function()
+    {
+      if(tries < 3)
+      {
+        tries++;
+        doOrderRequest();
+      }
+      else
+      {
+        alert("Une erreur s'est produite pendant l'envoi des commandes. Veuillez refraîchir la page.")
+      }
+    }
+  });
+}
+
+function showFinalMessage()
+{
+  new Ajax.Request("<?php echo Mage::getUrl('envoimoinscher/sales/result', array());?>",
+  {
+    evalScripts : true,
+    onSuccess : function(rsp) 
+    {
+      var field = "okResult";
+      var res = rsp.responseText.evalJSON();
+      var message = "Les commandes de livraison ont été correctement passées.";
+      if(res.results.errors > 0)
+      {
+        field = "errorResult";
+        message = "<p>Les commandes de livraison ont été correctement passées sauf celles-ci.</p>";
+        for(var i = 0; i < res.errors.length; i++)
+        {
+          var errorLine = res.errors[i];
+          message += errorLine.id + " : " + errorLine.message + " <br />";
+        }
+        message += "<p>Les commandes qui n'ont pas pu être expédiées seront classées dans le tableau  \"<a href=\"<?php echo Mage::getUrl('envoimoinscher/sales/index', array("key" => Mage::getSingleton('adminhtml/url')->getSecretKey("sales","index")));?>?r="+(new Date().getTime())+"#sales_errors_grid\">Commandes à compléter ou invalides</a>\" quand vous cliquerez sur le lien ou au rafraîchissement de la page.</p>";
+      }
+      $("li"+field).innerHTML = message;
+      $(field).setStyle({display : 'block'});
+      $("inProgress").remove();
+    },
+    onFailure: function()
+    {
+      if(tries < 3)
+      {
+        tries++;
+        showFinalMessage();
+      }
+      else
+      {
+        alert("Une erreur s'est produite pendant l'envoi des commandes. Veuillez refraîchir la page.")
+      }
+    }
+  });
+}
+</script>
+<?php } ?>
+<div class="shipsSend">
+  <div id="okResult" style="display:none;"><ul class="messages"><li id="liokResult" class="success-msg"></li></ul></div>
+  <div id="errorResult" style="display:none;"><ul class="messages"><li id="lierrorResult" class="error-msg"></li></ul></div>
+  <div id="inProgress"><p>Expédition des commandes en cours</p>
+    <p>A traiter : <span id="todo"><?php echo $this->total;?></span></p>
+    <p>Traitées : <span id="done"><?php echo $this->done;?></span></p>
+    <?php if($this->isindex != 1) { ?>
+    <p><a href="<?php echo Mage::getUrl('envoimoinscher/sales/cancel', array('key' =>  Mage::getSingleton('adminhtml/url')->getSecretKey("sales","cancel")));?>">Annuler les envois restants</a></p>
+    <?php if($this->hasmoreorders) { ?><p><a href="<?php echo Mage::getUrl('envoimoinscher/sales/skip', array('skipped' => $this->orderid,'key' =>  Mage::getSingleton('adminhtml/url')->getSecretKey("sales","skip")));?>">Passer à l'envoi suivant</a></p><?php } ?>
+    <?php } ?>
+  </div>
+</div>
+<br /><br />
+<?php } ?>

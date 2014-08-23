@@ -1,0 +1,68 @@
+<?php
+/**
+ * LaPoste_SoColissimoSimplicite
+ *
+ * @category  LaPoste
+ * @package   LaPoste_SoColissimoSimplicite
+ * @copyright Copyright (c) 2010 La Poste
+ * @author    Smile (http://www.smile.fr)
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+/* @var $this LaPoste_SoColissimoSimplicite_Block_Iframe */
+?>
+<?php /* @var $_helper LaPoste_SoColissimoSimplicite_Helper_Data */ ?>
+<?php $_helper = $this->helper('socolissimosimplicite'); ?>
+
+<?php if ($_helper->isActive()): ?>
+    <?php // chargement des étapes "shipping_method" et "payment" après retour de l'iframe ?>
+    <?php if ($this->hasToLoadShippingMethodAndPayment()): ?>
+    <script type="text/javascript">
+    //<![CDATA[
+        (function() {
+            checkout.currentStep = 'payment';
+            $('checkout-shipping-method-load').update(<?php echo json_encode($this->getShippingMethodHtml()); ?>);
+            $('checkout-payment-method-load').update(<?php echo json_encode($this->getPaymentHtml()); ?>);
+        })();
+    </script>
+    <?php endif; ?>
+
+    <script type="text/javascript">
+    //<![CDATA[
+        (function() {
+            // Initialisation de l'object gérant l'IFrame
+            var socoShippingMethod = new SocoShippingMethod(
+                <?php echo json_encode($_helper->getFormUrl()); ?>,
+                {
+                    rateCode: <?php echo json_encode($_helper->getRateCode()); ?>,
+                    cancelLabel: <?php echo json_encode($_helper->__('Annuler So Colissimo')); ?>
+                }
+            );
+
+            // fonction générique pour encapsuler les événements onclick
+            function wrapEvent(element, type, fn) {
+                var old = element['on' + type] || function() {};
+                element['on' + type] = function() { fn(old); };
+            }
+
+            // activation de l'IFrame So Colissimo au clic sur le bouton
+            var saveButton = $$('#shipping-method-buttons-container button');
+            if (saveButton.length > 0) {
+                wrapEvent(saveButton.first(), 'click', function(next) {
+                    var inputToValidate = $(<?php echo json_encode('s_method_' . $_helper->getRateCode()); ?>);
+                    if (inputToValidate !== null && inputToValidate.checked === true) {
+                        var result = socoShippingMethod.save();
+                        if (result === false) {
+                            next();
+                        }
+                    } else {
+                        next();
+                    }
+                });
+            }
+        })();
+    //]]>
+    </script>
+<?php endif; ?>
+
+<?php // réinitialise la variable de session pour retrouver un comportement natif (un refresh réinitialise le onepage) ?>
+<?php $this->getCheckoutSession()->unsetData('socolissimosimplicite_checkout_onepage_nextstep'); ?>

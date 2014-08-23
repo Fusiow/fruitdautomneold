@@ -1,0 +1,66 @@
+<?php
+/*
+    This file is part of EnvoiMoinsCher's shipping plugin for Magento.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/** 
+ * @category    Boxtale
+ * @package     Boxtale_Envoimoinscher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher.com
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://www.gnu.org/licenses  GNU Lesser General Public License (LGPL)
+ */
+?>
+<style type="text/css">
+.smallInput {width:50px;}
+.form-list label {padding-left:10px;}
+.form-list td {padding-bottom:6px;}
+.hidden {display:none;}
+</style>
+
+<div class="entry-edit">
+  <div class="fieldset">
+    <p>Vous pouvez appliquer une opération promotionnelle à chaque transporteur sélectionné sur la page de configuration du module.</p>
+    <h3><?php echo $this->service['label_es']; ?> (<?php echo $this->service['operator'];?>)</h3>
+    <p><?php echo $this->service['desc_es']; ?><input type="hidden" name="operators[]" value="<?php echo $this->service['id_es'];?>" /></p>
+    <p><span>Appliquer une offre promotionnelle</span>
+      <label><input type="radio" name="promo[<?php echo $this->service['id_es'];?>]" value="0" onclick="javascript:showHide(this, '<?php echo $this->service['id_es'];?>');" <?php if($this->quantity == 0) { ?>checked="checked"<?php } ?> />non</label>
+      <label><input type="radio" name="promo[<?php echo $this->service['id_es'];?>]" value="1" onclick="javascript:showHide(this, '<?php echo $this->service['id_es'];?>');" <?php if($this->quantity > 0) { ?>checked="checked"<?php } ?>/>oui</label>
+    </p>
+    <div id="config_<?php echo $this->service['id_es'];?>" <?php if($this->quantity == 0) { ?>class="hidden"<?php } ?>>
+      <label>Nombre d'opérations promotionnelles <input type="text" name="quantity_<?php echo $this->service['id_es'];?>" id="quantity_<?php echo $this->service['id_es'];?>" onblur="showOthers('<?php echo $this->service['id_es'];?>');" value="<?php echo $this->quantity;?>" /></label>
+    </div>
+    <div id="fields_<?php echo $this->service['id_es'];?>"></div><!-- fields<?php echo $this->service['id_es'];?>-->
+    <?php if($this->quantity > 0) { ?>
+    <script type="text/javascript">
+      optionsPromoEmc[<?php echo $this->service['id_es'];?>] = new Array();
+      <?php foreach($this->rules['type'][$this->service['id_es']] as $s => $service) { ?>
+        optionsPromoEmc[<?php echo $this->service['id_es'];?>][<?php echo $s;?>] = new Array();
+        optionsPromoEmc[<?php echo $this->service['id_es'];?>][<?php echo $s;?>]['type'] = '<?php echo $this->rules['type'][$this->service['id_es']][$s];?>';
+        optionsPromoEmc[<?php echo $this->service['id_es'];?>][<?php echo $s;?>]['amount_from'] = '<?php echo $this->rules['amount_from'][$this->service['id_es']][$s];?>';
+        optionsPromoEmc[<?php echo $this->service['id_es'];?>][<?php echo $s;?>]['amount_to'] = '<?php echo $this->rules['amount_to'][$this->service['id_es']][$s];?>';
+        optionsPromoEmc[<?php echo $this->service['id_es'];?>][<?php echo $s;?>]['value'] = '<?php echo $this->rules['value'][$this->service['id_es']][$s];?>';
+        optionsPromoEmc[<?php echo $this->service['id_es'];?>][<?php echo $s;?>]['geo'] = '<?php echo $this->rules['geo'][$this->service['id_es']][$s];?>';
+        optionsPromoEmc[<?php echo $this->service['id_es'];?>][<?php echo $s;?>]['valid_from'] = '<?php echo $this->rules['valid_from'][$this->service['id_es']][$s];?>';
+        optionsPromoEmc[<?php echo $this->service['id_es'];?>][<?php echo $s;?>]['valid_to'] = '<?php echo $this->rules['valid_to'][$this->service['id_es']][$s];?>';
+      <?php } ?>
+    Event.observe(window, 'load', function() {  
+      showOthers('<?php echo $this->service['id_es'];?>');
+      fillUpFields('<?php echo $this->service['id_es'];?>');
+    });
+    </script>
+    <?php } ?>
+  </div>
+</div>

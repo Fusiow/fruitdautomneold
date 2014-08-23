@@ -1,0 +1,150 @@
+<?php
+/*
+    This file is part of EnvoiMoinsCher's shipping plugin for Magento.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/** 
+ * @category    Boxtale
+ * @package     Boxtale_Envoimoinscher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher.com
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://www.gnu.org/licenses  GNU Lesser General Public License (LGPL)
+ */
+?>
+<br /><br />
+<div class="entry-edit">
+  <div class="fieldset">
+    <h3>Autres informations obligatoires</h3>
+    <form method="post" action="<?php if(count($this->offer) > 0) { ?><?php echo $this->getSendAction($this->orderid);?><?php } else { ?><?php echo $this->getEditDeliveryAction($this->orderid);?><?php } ?>" id="mandatory_form">
+      <table id="mandatoryTable" class="form-list mandatoryTable" cellspacing="0">
+<?php if(count($this->offer) > 0) { ?>
+  <?php if($this->multiparcel == 1) { ?>
+<tr id="multiParcelRow">
+  <td class="label">
+    <label for="multiParcel">Multi-colis</label>
+  </td>
+  <td class="input">
+    <input type="text" name="multiParcel" id="multiParcel" onblur="makeParcels();" value="<?php if(count($this->shipment) > 1) { echo count($this->shipment); } ?>" class="input-text" />  
+    <div id="errorMultiParcel" style="display:none;"><ul class="messages"><li class="error-msg">Le multi-colis permet d'expédier la commande
+            en plusieurs colis au lieu d'un seul : veuillez indiquer le nombre de colis à expédier pour cette
+            commande en saisissant un chiffre supérieur ou égal à 2. Si la commande doit être envoyée
+            en 1 seul colis, laissez la case vide</li></ul></div>
+  </td>
+</tr>
+    <?php if(count($this->shipment) > 1) { ?>
+      <?php foreach($this->shipment as $s => $shipLine) { ?>
+    <tr class="appendrow">
+      <td class="label"><label for="parcel<?php echo $s;?>">Colis #<?php echo $s;?></label></td>
+      <td class="input"><input type="text" name="parcel[]" id="parcel<?php echo $s;?>" value="<?php echo $shipLine["poids"];?>" onblur="javascript: modifWeight();" /> kg</td>
+    </tr>
+      <?php } ?>
+    <?php } ?>
+  <?php } ?>
+<tr>
+  <td class="label">
+    <label for="weight">Poids total de l'envoi</label>
+  </td>
+  <td class="input">
+    <input type="text" name="weight" id="weight" <?php if($this->multiparcel == 1) { ?>onblur="blurWeight();"<?php } ?> value="<?php echo $this->weight;?>" class="input-text" />  
+  </td>
+</tr>
+  <?php foreach($this->offer['mandatory'] as $mandatory) { ?>
+    <?php $mandatoryHtml = Mage::helper("envoimoinscher")->outputMandatory($mandatory, $this->params[$mandatory['code']], "text");  
+    if(count($mandatoryHtml) > 0 && $mandatoryHtml['type'] != 'hidden'/*&& ($this->offer['operator']['code'] != 'CHRP' || $this->offer['operator']['code'] == 'CHRP' && $mandatory['code'] != 'depot.pointrelais')*/ ) {
+    ?>
+        <tr><td class="label">
+		  <?php echo $mandatoryHtml['label'];?>
+        </td><td class="input">  <?php echo $mandatoryHtml['field'];?>
+        <?php echo $mandatoryHtml['helper']; ?>
+        </td></tr> 
+    <?php }  elseif($mandatoryHtml['type'] == 'hidden') { ?>
+      <?php 
+        echo $mandatoryHtml['field']; ?>
+    <?php } ?>
+  <?php } ?>
+        <tr><td class="label"><label for="date">Date d'enlèvement</label></td>
+          <td class="input"><input type="text" name="collecte" id="collecte" value="<?php echo date('Y-m-d', strtotime($this->offer['collection']['date']));?>" class="input-text" />
+          <p class="note">format : AAAA-MM-JJ, par exemple 2000-12-26 pour le 26 décembre 2000</p>
+        </td></tr>
+  <?php if(count($this->offer['mandatory']['proforma.description_en']) > 0) { ?>
+        <tr><td colspan="2"><br /><b>Informations pour la facture proforma, générée par EnvoiMoinsCher.com</b></td></tr>
+    <?php foreach($this->proforma as $l => $line) { ?>      
+        <tr><td><label for="desc_fr_<?php echo $l;?>">Description d'objet #<?php echo $l;?></label></td>
+          <td>
+            <p><input type="text" name="desc_fr_<?php echo $l;?>" id="desc_fr_<?php echo $l;?>" value="<?php echo $line['description_fr'];?>" class="input-text" /> <small>(en français)</small></p>
+            <p><input type="text" name="desc_en_<?php echo $l;?>" id="desc_en_<?php echo $l;?>" value="<?php echo $line['description_en'];?>" class="input-text" /> <small>(en anglais)</small></p> 
+          </td>
+        </tr>
+    <?php } ?>
+  <?php } ?>
+<?php } ?>
+<tbody id="delivery">
+  <?php foreach($this->customer as $c => $customerData) { ?>
+    <?php if(($labelDel = Mage::helper("envoimoinscher")->getDeliveryLabel($c)) != "") { ?>
+    <tr>
+      <td class="label"><label for="field<?php echo $c;?>"><?php echo $labelDel;?></label></td>
+      <td class="input"><input type="text" name="<?php echo $c;?>" value="<?php echo $customerData;?>" id="field<?php echo $c;?>" class="input-text" /></td>
+    </tr>
+    <?php } ?>
+  <?php } ?>
+</tbody>
+        <tr><td><input type="hidden" name="pays_EXP" id="pays_EXP" value="<?php echo $this->shipper["pays"];?>" /><input type="hidden" name="pays_DES" id="pays_DES" value="<?php echo $this->customer["pays"];?>" />
+          <input type="hidden" name="cp_EXP" id="cp_EXP" value="<?php echo $this->shipper["code_postal"];?>" /><input type="hidden" name="cp_DES" id="cp_DES" value="<?php echo $this->customer['code_postal'];?>" />
+          <input type="hidden" name="ville_EXP" id="ville_EXP" value="<?php echo $this->shipper["ville"];?>" /><input type="hidden" name="ville_DES" id="ville_DES" value="<?php echo $this->customer["ville"];?>" />
+          <input type="hidden" name="form_key" value="<?php echo $this->getFormKey(); ?>" /></td></tr>
+      </table>
+    </form>
+<script type="text/javascript">
+    var editForm = new varienForm('mandatory_form');
+<?php if(count($this->offer) > 0) { ?>
+    editForm.submit = function()
+    {
+      if($("weight").getValue() != baseWeight || modified)
+      {
+        var lines = "";
+        var nb = <?php if($this->multiparcel == 1) { ?>parseInt($("multiParcel").getValue())<?php } else { ?>1<?php } ?>;
+        if(""+nb != "NaN" && nb > 1)
+        {
+          lines += $("parcel1").getValue();
+          for(var i=2; i <= nb; i++)
+          {
+            lines += ";"+$("parcel"+i).getValue();
+          }
+        }
+        new Ajax.Request("<?php echo Mage::getUrl('envoimoinscher/sales/getNewOffers', array("order" => $this->orderid));?>",
+        {
+          evalScripts : true,
+          parameters : {parcels : lines, weight : $("weight").getValue()},
+          onSuccess : function(rsp) 
+          {
+            // $("msgWeight").show();
+            $("orderHeader").scrollTo();
+            $("offerBox").innerHTML = rsp.responseText;
+            baseWeight = $("weight").getValue();
+            modified = false;
+          },
+          onFailure: function()
+          {
+alert("Une erreur s'est produite. Veuillez réessayer.");
+          }
+        });
+        return false;
+      }
+      $("mandatory_form").submit();
+    }
+<?php } ?>
+</script>
+  </div>
+</div>

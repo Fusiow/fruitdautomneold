@@ -8,20 +8,16 @@ plugin;ImageAttributeItemProcessor;pluginhello:Image attributes processor-1.0.29
 plugin;Magmi_DefaultAttributeItemProcessor;pluginhello:Standard Attribute Import-1.0.6-Dweeves- 
 plugin;Magmi_CSVDataSource;startup:CSV Datasource v1.3.1 - Importing CSV : /var/www/fruitdautomne/var/import/magmi.csv using separator [ , ] enclosing [ " ]
 startup:Performing Datasouce Lookup...
-lookup:113:0.007282018661499
-startup:Found 113 records, took 0.007282018661499 sec
+lookup:113:0.0050270557403564
+startup:Found 113 records, took 0.0050270557403564 sec
 plugin;Magmi_CSVDataSource;startup:CSV Datasource v1.3.1 - No BOM detected, assuming File is UTF8 without BOM...
 plugin;Magmi_CSVDataSource;startup:CSV Datasource v1.3.1 - 12 CSV headers columns found
 columns:12
-plugin;Magmi_DefaultAttributeItemProcessor;startup:Standard Attribute Import v1.0.6 - Newly created items will have default values for columns:store,status,visibility,page_layout
-startup:Ajusted processed columns:16
-plugin;ImageAttributeItemProcessor;warning:Image attributes processor v1.0.29 - Véra.jpg cannot be found in images path
-plugin;ImageAttributeItemProcessor;warning:Image attributes processor v1.0.29 - Lobélia.jpg cannot be found in images path
-plugin;ImageAttributeItemProcessor;warning:Image attributes processor v1.0.29 - Salvia.jpg cannot be found in images path
-plugin;ImageAttributeItemProcessor;warning:Image attributes processor v1.0.29 - Rosa Morada.jpg cannot be found in images path
-itime:113 - 3.5450398921967 - 3.5450398921967
-dbtime:2216 - 0.96558094024658 - 0.96558094024658 - 2216
-itime:113 - 3.5579168796539 - 0.012759923934937
-dbtime:2238 - 0.97072458267212 - 0.0051436424255371 - 22
+plugin;Magmi_DefaultAttributeItemProcessor;startup:Standard Attribute Import v1.0.6 - Newly created items will have default values for columns:store,status,page_layout
+startup:Ajusted processed columns:15
+itime:113 - 2.8770740032196 - 2.8770740032196
+dbtime:2248 - 0.90719866752625 - 0.90719866752625 - 2248
+itime:113 - 2.9064118862152 - 0.029052972793579
+dbtime:2270 - 0.91956758499146 - 0.01236891746521 - 22
 info:Skus imported OK:113/113
 end:Import Ended

@@ -1,0 +1,458 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * EnvoiMoinsCher
+ * 
+ * @package     EnvoiMoinsCher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+  <sections>
+    <carriers>
+      <groups>
+        <envoimoinscher translate="label" module="shipping">
+          <label>EnvoiMoinsCher</label>
+          <frontend_type>text</frontend_type>
+          <sort_order>14</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>1</show_in_website>
+          <show_in_store>1</show_in_store>
+          <comment>
+<![CDATA[                             <div>
+  <span style="font-size: 15px;">Les 3 étapes de configuration  : </span>
+  <ol>
+    <li>1. Complétez le formulaire ci-dessous</li>
+    <li>2. Personnalisez les dimensions de vos envois (Menu : Ventes => EnvoiMoinsCher => dimensions) : cette étape est facultative mais vivement conseillée</li>
+    <li>3. Précisez le type de tarif à afficher sur la boutique (forfait fixe ou prix réel) pour chaque transporteur sélectionné (Menu : Ventes => EnvoiMoinsCher => Grille tarifaire)</li>
+  </ol>
+  <script type="text/javascript">
+  function openPopupEmc(ope)
+  {
+    if(ope == "SOGP")
+    {
+      window.open("http://www.envoimoinscher.com/magento_rc.html?fcp=&fadr=&fvil=&TypeLiv=REL&type=Exp&isMagento=true","emcwindow","scrollbars=1, resizable=1,width=650,height=680");
+    }
+    else if(ope == "MONR")
+    {
+      window.open("http://www.envoimoinscher.com/modules_monr.html?isMagento=true&isModule=true&monrCp=&monrVille=&monrPays=FR&monrPoids=1","emcwindow","scrollbars=1, resizable=1,width=800,height=680");
+    }
+  }
+  </script>
+</div>
+]]> 
+          </comment>
+          <fields>
+            <active translate="label">
+              <label>Enabled</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </active>
+            <user translate="label">
+              <label>Login EnvoiMoinsCher</label>
+              <comment></comment>
+              <frontend_type>text</frontend_type>
+              <sort_order>2</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>required-entry</validate>
+            </user>
+            <mdp translate="label">
+              <label>Mot de passe EnvoiMoinsCher</label>
+              <frontend_type>password</frontend_type>
+              <sort_order>3</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>required-entry</validate>
+            </mdp>
+            <cle translate="label"> 
+              <label>Cl&#xE9; API EnvoiMoinsCher</label>
+              <frontend_type>text</frontend_type>
+              <comment><![CDATA[<a href="http://www.envoimoinscher.com/api/developpeurs.html#PREREQUIS" target="_blank">Cliquez ici pour obtenir votre cl&#xE9; API</a>]]></comment>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>required-entry</validate>
+            </cle>
+            <environment translate="label">
+              <label>Environnement de travail</label>
+              <frontend_type>select</frontend_type>
+              <sort_order>5</sort_order>
+              <source_model>envoimoinscher/emc_environment</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </environment>
+            <civility translate="label">
+              <label>Civilit&#xE9; de l'exp&#xE9;diteur</label>
+              <frontend_type>select</frontend_type>
+              <source_model>envoimoinscher/emc_civilities</source_model>
+              <sort_order>6</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </civility>
+            <last_name translate="label">
+              <label>Nom de l'exp&#xE9;diteur</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>7</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>required-entry</validate>
+            </last_name>
+            <first_name translate="label">
+              <label>Pr&#xE9;nom de l'exp&#xE9;diteur</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>8</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>required-entry</validate>
+            </first_name>
+            <company translate="label">
+              <label>Soci&#xE9;t&#xE9;</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>9</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>required-entry</validate>
+            </company>
+            <address translate="label">
+              <label>Adresse</label>
+              <frontend_type>textarea</frontend_type>
+              <sort_order>10</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>required-entry</validate>
+            </address>
+            <postal_code translate="label">
+              <label>Code postal</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>11</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>required-entry</validate>
+            </postal_code>
+            <city_name translate="label">
+              <label>Ville</label>
+              <frontend_type>text</frontend_type>
+              <comment>L'exp&#xE9;dition est disponible uniquement depuis la France</comment>
+              <sort_order>12</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>required-entry</validate>
+            </city_name>
+            <telephone translate="label">
+              <label>Num&#xE9;ro de t&#xE9;l&#xE9;phone</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>13</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>required-entry</validate>
+            </telephone>
+            <mail_account translate="label">
+              <label>Adresse e-mail</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>14</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>required-entry</validate>
+            </mail_account>
+            <complementary translate="label">
+              <label><![CDATA[  Informations complémentaires <br />sur l'adresse]]></label>
+              <comment>Etage, code,nom sur l'interphone...</comment>
+              <frontend_type>textarea</frontend_type>
+              <sort_order>15</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </complementary>
+            <disponibilite.HDE translate="label">
+              <label>D&#xE9;but de disponibilit&#xE9; pour l'enl&#xE8;vement</label>
+              <frontend_type>select</frontend_type> 
+              <source_model>envoimoinscher/emc_dispo_start</source_model>
+              <sort_order>16</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </disponibilite.HDE>
+            <disponibilite.HLE translate="label">
+              <label>Fin de disponibilit&#xE9; pour l'enl&#xE8;vement</label>
+              <frontend_type>select</frontend_type> 
+              <source_model>envoimoinscher/emc_dispo_end</source_model>
+              <sort_order>17</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </disponibilite.HLE>
+            <order_mode translate="label">
+              <label>Mode de commande</label>
+              <comment><![CDATA[Note :<br /> <b>le mode automatique</b> : dès que votre client validera sa commande cela déclenchera automatiquement la commande de livraison (vous n'aurez rien à faire depuis votre panneau d'administration) <br />
+              <b>le mode manuel</b> : vous déclenchez la commande de livraison manuellement, depuis votre panneau d'administration ]]></comment>
+              <frontend_type>select</frontend_type>
+              <sort_order>18</sort_order>
+              <source_model>envoimoinscher/emc_modes</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <validate>required-entry</validate>
+            </order_mode>
+            <services_fran_small translate="label">
+              <label>Offres de transport actives "offres &#xE9;conomiques" France</label>
+              <frontend_type>multiselect</frontend_type>
+              <source_model>envoimoinscher/emc_services::showFranceSmall</source_model>
+              <sort_order>19</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <can_be_empty>1</can_be_empty>
+            </services_fran_small> 
+            <services_inte_small translate="label">
+              <label>Offres de transport actives "offres &#xE9;conomiques" International</label>
+              <frontend_type>multiselect</frontend_type>
+              <source_model>envoimoinscher/emc_services::showInternationalSmall</source_model>
+              <sort_order>20</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <can_be_empty>1</can_be_empty>
+            </services_inte_small> 
+            <services_fran_ex translate="label">
+              <label>Offres de transport actives "expressistes"  France</label>
+              <frontend_type>multiselect</frontend_type>
+              <source_model>envoimoinscher/emc_services::showFranceExpress</source_model>
+              <sort_order>21</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <can_be_empty>1</can_be_empty>
+            </services_fran_ex> 
+            <services_inte_ex translate="label">
+              <label>Offres de transport actives "expressistes" International</label>
+              <frontend_type>multiselect</frontend_type>
+              <source_model>envoimoinscher/emc_services::showInternationalExpress</source_model>
+              <sort_order>22</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <can_be_empty>1</can_be_empty>
+            </services_inte_ex>
+            <sallowspecific translate="label">
+              <label>Ship to Applicable Countries</label>
+              <frontend_type>select</frontend_type>
+              <sort_order>23</sort_order>
+              <frontend_class>shipping-applicable-country</frontend_class>
+              <source_model>adminhtml/system_config_source_shipping_allspecificcountries</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </sallowspecific>
+            <specificcountry translate="label">
+              <label>Pays autoris&#xE9;s (liste d&#xE9;taill&#xE9;e)</label>
+              <frontend_type>multiselect</frontend_type>
+              <sort_order>24</sort_order>
+              <source_model>adminhtml/system_config_source_country</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <can_be_empty>1</can_be_empty>
+            </specificcountry>
+            <type translate="label">
+              <label>Type de vos envois</label>
+              <frontend_type>select</frontend_type>
+              <source_model>envoimoinscher/emc_types</source_model>
+              <sort_order>25</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </type>
+            <content translate="label">
+              <label>Nature de vos envois</label>
+              <frontend_type>select</frontend_type>
+              <source_model>envoimoinscher/emc_categories</source_model>
+              <comment>Cette information est transmise au(x) transporteur(s), choisissez le libell&#xE9; le plus exact possible</comment>
+              <sort_order>26</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>validate-greater-than-zero</validate>
+            </content>
+            <wrapping translate="label">
+              <label>Type d'emballage</label>
+							<comment><![CDATA[Type d'emballage de vos colis, n&#xE9;cessaire pour les offres Colissimo.L'acc&#xE8;s &#xE0; cette option n&#xE9;c&#xE9;ssite une validation du formulaire avec des <b>identifiants valides</b>.]]></comment>
+              <frontend_type>select</frontend_type>
+              <source_model>envoimoinscher/emc_wrapping</source_model>
+              <sort_order>27</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </wrapping>
+            <pickup_date translate="label">
+              <label>Date d'enl&#xE8;vement : J +</label>
+              <comment>Indiquez &#xE0; combien de jours apr&#xE8;s la prise de commande par l'acheteur, l'enl&#xE8;vement doit &#xEA;tre programm&#xE9;.</comment>
+              <frontend_type>text</frontend_type>
+              <sort_order>28</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>required-entry</validate>
+            </pickup_date>
+            <order_mode translate="label">
+              <label>Mode de commande</label>
+              <comment><![CDATA[Note :<br /> <b>le mode automatique</b> : dès que votre client validera sa commande cela déclenchera automatiquement la commande de livraison (vous n'aurez rien à faire depuis votre panneau d'administration) <br />
+              <b>le mode manuel</b> : vous déclenchez la commande de livraison manuellement, depuis votre panneau d'administration ]]></comment>
+              <frontend_type>select</frontend_type>
+              <sort_order>29</sort_order>
+              <source_model>envoimoinscher/emc_modes</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <validate>required-entry</validate>
+            </order_mode>
+            <mass_mode translate="label">
+              <label>Mode de l'envoi en masse</label>
+              <comment><![CDATA[Lorsque que vous envoyez plusieurs commandes en une seule fois, vous pouvez choisir de vérifier et confirmer les informations de chaque envoi avant de les déclencher]]></comment>
+              <frontend_type>select</frontend_type> 
+              <source_model>envoimoinscher/emc_mass</source_model>
+              <sort_order>30</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </mass_mode>
+            <multi_parcel translate="label">
+              <label>Utiliser le multi-colis</label>
+              <comment><![CDATA[Vous pouvez choisir d'expédier certaines commandes en plusieurs colis au lieu d'un seul.
+              <b>Attention ! Il pourra y avoir une différence de prix par rapport au tarif payé par votre acheteur.
+              Tous les bordereaux vous seront facturés.</b>]]></comment>
+              <frontend_type>select</frontend_type> 
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>31</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </multi_parcel>
+            <depot.pointrelais_sogp translate="label">
+              <label><![CDATA[Votre Relais Colis&reg; de dépôt de colis]]></label>
+              <comment><![CDATA[Pour choisir votre Relais Colis&reg;, copiez-collez le code du point de proximité de votre choix (par exemple : K1168, K1161, K1170).</small> > <a href="#" id="openPopup" onclick="javascript: openPopupEmc('SOGP'); return false;">récupérer le code</a>]]></comment>
+              <frontend_type>text</frontend_type>
+              <sort_order>32</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </depot.pointrelais_sogp>
+            <depot.pointrelais_monr translate="label">
+              <label><![CDATA[Votre point relais Mondial Relay de dépôt de colis]]></label>
+              <comment><![CDATA[Pour choisir votre point relais copiez-collez le code du point de proximité de votre choix (par exemple : 010081, 042358, 072559, 067199).</small> > <a href="#" id="openPopup" onclick="javascript: openPopupEmc('MONR'); return false;">récupérer le code</a>]]></comment>
+              <frontend_type>text</frontend_type>
+              <sort_order>33</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </depot.pointrelais_monr>
+            <mails_label translate="label">
+              <label><![CDATA[Réception du mail avec le bordereau]]></label>
+              <frontend_type>select</frontend_type> 
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>34</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </mails_label>
+            <mails_notif translate="label">
+              <label><![CDATA[Réception du mail de notification au destinataire]]></label>
+              <frontend_type>select</frontend_type> 
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>35</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </mails_notif>
+            <mails_bill translate="label">
+              <label><![CDATA[Réception du mail avec la facture]]></label>
+              <frontend_type>select</frontend_type> 
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>36</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </mails_bill>
+            <tracking_mode translate="label">
+              <label>Type du num&#xE9;ro de suivi</label>
+              <comment><![CDATA[Choisissez quel type de numéro de suivi doit être utilisé et repris pour les URL de suivi que vous aurez définies sur les fiches transporteur]]></comment>
+              <frontend_type>select</frontend_type>
+              <sort_order>37</sort_order>
+              <source_model>envoimoinscher/emc_tracking::getTrackingTypes</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <validate>required-entry</validate>
+            </tracking_mode>
+            <pricing_return translate="label">
+              <label>Type de prix</label>
+              <comment><![CDATA[Type de prix retournés par l'API EnvoiMoinsCher]]></comment>
+              <frontend_type>select</frontend_type>
+              <sort_order>38</sort_order>
+              <source_model>envoimoinscher/emc_restitutions::getPricesTypes</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <validate>required-entry</validate>
+            </pricing_return>
+            <opencartatclick translate="label">
+              <label>Ouvrir la carte au click sur la case</label>
+              <comment><![CDATA[Afficher automatiquement la liste des point relais lors de la sélection de cette offre de transport]]></comment>
+              <frontend_type>select</frontend_type>
+              <sort_order>39</sort_order>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <validate>required-entry</validate>
+            </opencartatclick>
+<!--
+            <priority translate="label">
+              <label>Tri des offres selon : </label>
+              <frontend_type>select</frontend_type>
+              <sort_order>24</sort_order>
+              <source_model>envoimoinscher/emc_delay</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <can_be_empty>1</can_be_empty>
+            </priority>
+            <state_change translate="label">
+              <label>Appliquer la modification du statut de la commande</label>
+              <frontend_type>select</frontend_type> 
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>29</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </state_change>-->
+            <first_launch translate="label">
+              <show_in_default>0</show_in_default>
+              <show_in_website>0</show_in_website>
+              <show_in_store>0</show_in_store>
+            </first_launch>
+          </fields>
+        </envoimoinscher> 
+      </groups>
+    </carriers>
+  </sections>
+ </config>

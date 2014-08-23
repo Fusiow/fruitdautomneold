@@ -1,0 +1,172 @@
+<?php
+/*
+    This file is part of EnvoiMoinsCher's shipping plugin for Magento.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/** 
+ * @category    Boxtale
+ * @package     Boxtale_Envoimoinscher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher.com
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://www.gnu.org/licenses  GNU Lesser General Public License (LGPL)
+ */
+?>
+<!-- hack for "select your parcel point" link -->
+<style type="text/css">
+.block-progress dd #selectPoint {display:none;}
+</style>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<div id="mapContainer" style="display:none; width:80%; height:80%; background: #FFFFFF; position: absolute; z-index: 1111; top: 100px; left: 10%; border:3px solid #000000;">
+<p style="width:98%; text-align:right; height:5%; padding-right:10px; margin-top:1%;"><a href="#" onclick="hideMap(); return false;">fermer X</a></p>
+<div id="map_canvas" style="width: 100%;height:90% ;"></div></div>  
+<div id="parcel_points" style="width:1000px; z-index:1; background: #FFFFFF; padding:40px; display:none;">
+</div>
+<!--<div id="mapContainer" style="display:none; width:80%; height:80%; background: #FFFFFF; position: absolute; z-index: 1111; top: 100px; left: 10%; border:3px solid #000000;">
+<p style="width:98%; text-align:right; height:5%; padding-right:10px; margin-top:1%;"><a href="#" onclick="hideMap(); return false;">fermer X</a></p>
+<div id="map_canvas" style="width: 100%;height:90% ;"></div></div>-->
+<script type="text/javascript">
+var baseUrlEmc = '<?php echo $this->getUrl(); ?>';
+var loaderImageEmc = '<img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" />';
+var opened = 0;
+var geocoder;
+var map; 
+var marker; 
+var infowindow = new google.maps.InfoWindow();
+var points; 
+var infos;
+var parcelNames; 
+var parcelIds; 
+var j = 0; 
+var infoParcel = new Array();
+var pointsLoaded = "";
+
+function selectPoint(ref)
+{
+  if(pointsLoaded.indexOf(";"+ref) == -1)
+  {
+    pointsLoaded = pointsLoaded + ";"+ref;
+    var obj = $('mapLink'+ref).parentNode; //$('selectPoint').parentNode;
+    var htmlParent = obj.innerHTML;
+    obj.innerHTML = htmlParent + '<span id="loaderEmc">'+loaderImageEmc+'Veuillez patienter...</span>';
+    // append parcel points list
+    new Ajax.Request(baseUrlEmc+'envoimoinscher/points/get/code/'+ref ,
+    {
+      evalScripts : true,
+      onSuccess : function(rsp) 
+      {
+        var parentList = $('s_method_envoimoinscher_'+ref).parentNode;
+        if((parentList.toString()).indexOf("HTMLSpanElement") != -1)
+        {
+          parentList = parentList.parentNode;
+        }
+        var parentListHtml = parentList.innerHTML;
+        parentList.innerHTML = parentListHtml + '<ul id="listPr">'+rsp.responseText+'</ul>';
+        // $('selectPoint').remove();
+        $('loaderEmc').remove();
+        $('mapLink'+ref).remove();
+        document.getElementById('s_method_envoimoinscher_'+ref).checked = true;
+      }
+    });
+    opened = 0;
+    map = null;
+    geocoder = null;
+    infowindow = new google.maps.InfoWindow();
+    infoParcel = new Array();
+    document.getElementById("map_canvas").innerHTML = '';
+  } 
+} 
+
+function makeMap(carrierCode, id)
+{
+  // if(opened == 1)
+  // {
+    // showMap();
+  // }
+  // else 
+  // {
+    var arr = $('openMap').cumulativeOffset();
+    $('mapContainer').setStyle({top : (arr[1]-10)+'px'});
+    initialize(carrierCode, id);
+    // opened = 1;
+  // }
+} 
+
+function initialize(carrierCode, id) 
+{
+  j = 0;
+  infoParcel = new Array();
+  showMap();
+  geocoder = new google.maps.Geocoder(); 
+  var myOptions = {
+    zoom: 11, 
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+  points = $('parcelPoints'+id+carrierCode).getValue().split('|');
+  infos = $('parcelInfos'+id+carrierCode).getValue().split('|');
+  parcelNames = $('parcelNames'+id+carrierCode).getValue().split('|');
+  parcelIds = $('parcelIds'+id+carrierCode).getValue().split('|');
+  for(var i = 0; i < points.length; i++)
+  {
+    (function(i) {
+      var address = points[i];
+      infoParcel[i] = '<b>'+parcelNames[i]+'</b>' + '<br /><a href="#" onclick="javascript: selectPr(\''+parcelIds[i]+'\'); return false;">Sélectionner ce point</a> <br />'  + address + '<br />' + infos[i]; 
+      if(geocoder) 
+      {
+        geocoder.geocode({'address': address}, function(results, status) {
+          if(status == google.maps.GeocoderStatus.OK) 
+          {
+            makeMarker(i, results[0].geometry.location);
+            // j++;
+          }
+        });
+      }
+    })(i);      
+  } 
+  document.getElementById('mapContainer').style.display = 'block'; 
+} 
+
+function makeMarker(s, location)
+{ 
+  map.setCenter(location);
+  var marker = new google.maps.Marker({
+    map: map, 
+    position: location,
+    title : ""+parcelNames[s]
+  });
+  marker.set("bulkContent", infoParcel[s]);
+  google.maps.event.addListener(marker,"click",function(){
+    infowindow.setContent(this.get("bulkContent"));
+    infowindow.open(map,marker);
+  });
+}
+
+function showMap()
+{
+  document.getElementById('mapContainer').style.display = 'block'; 
+}
+
+function hideMap()
+{
+  document.getElementById('mapContainer').style.display = 'none'; 
+}
+
+function selectPr(pr)
+{
+  // $(pr).setAttribute('checked', 'checked');
+  document.getElementById(pr).checked = true;
+  hideMap();
+}
+</script>

@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <default>
+    <block type="envoimoinscher/notifications" name="notifBlock">
+      <action method="showNotification" />
+    </block>
+    <reference name="head">
+      <action method="addCss"><stylesheet>styles_emc.css</stylesheet></action>
+    </reference>
+  </default>
+  <envoimoinscher_tests_do>
+    <reference name="root" >
+      <block type="core/template" name="content" template="boxtale/envoimoinscher/tests/do.phtml" />
+      <block type="envoimoinscher/Adminhtml_Buttons_Tests" name="buttonSend" template="boxtale/envoimoinscher/tests/buttons.phtml" />
+    </reference>
+  </envoimoinscher_tests_do>
+  <envoimoinscher_updates_list>
+    <reference name="root">
+      <block type="core/template" name="content" template="boxtale/envoimoinscher/updates/index.phtml" />
+      <block type="envoimoinscher/Updates_List" name="list" template="boxtale/envoimoinscher/updates/list.phtml" />
+    </reference>
+  </envoimoinscher_updates_list>
+
+<!-- page index qui contient le tableau des commandes -->
+  <envoimoinscher_sales_index> 
+    <reference name="root">
+      <block type="core/template" name="content" template="boxtale/envoimoinscher/sales/index.phtml">
+        <block type="adminhtml/template" name="sendship" template="boxtale/envoimoinscher/sales/submenu.phtml" />
+        <block type="envoimoinscher/Sales_Emc_Grid_Container" name="envoimoinscher_sales.emc.grid.container"></block>
+        <block type="envoimoinscher/Sales_Emc_Grid" name="envoimoinscher_sales.emc.grid"></block>
+        <block type="envoimoinscher/Sales_Noemc_Grid_Container" name="envoimoinscher_sales_noemc.grid.container"></block>
+        <block type="envoimoinscher/Sales_Noemc_Grid" name="envoimoinscher_sales_noemc.grid"></block>
+        <block type="envoimoinscher/Sales_Errors_Grid_Container" name="envoimoinscher_sales_errors.grid.container"></block>
+        <block type="envoimoinscher/Sales_Errors_Grid" name="envoimoinscher_sales_errors.grid"></block>
+	  </block>
+    </reference>
+  </envoimoinscher_sales_index>
+  <envoimoinscher_history_index>
+    <reference name="content">
+      <block type="core/template" template="boxtale/envoimoinscher/history/index.phtml"></block>
+      <block type="envoimoinscher/History_Grid_Container" name="envoimoinscher_history.grid.container"></block>
+    </reference>
+  </envoimoinscher_history_index>
+  <envoimoinscher_configuration_configure>
+    <reference name="root" >
+      <block type="core/template" name="content" output="toHtml" template="boxtale/envoimoinscher/configuration/configure.phtml" />
+    </reference>
+  </envoimoinscher_configuration_configure>
+  <envoimoinscher_scale_table>
+    <!--<reference name="root">-->
+   <reference name="root">
+      <block type="core/template" name="content" template="boxtale/envoimoinscher/scale/table.phtml">
+        <block type="adminhtml/template" name="scaleOperators" template="boxtale/envoimoinscher/scale/operators.phtml" />
+        <block type="envoimoinscher/Scale_Table" name="buttonTop" template="boxtale/envoimoinscher/scale/button.phtml" />	  
+	  </block>
+    </reference>
+    <reference name="left">
+      <block type="envoimoinscher/Scale_Tabs" name="scale_tabs"></block>
+    </reference>
+  </envoimoinscher_scale_table>
+  <envoimoinscher_dimensions_table>
+    <reference name="root">
+      <block type="core/template" name="content" template="boxtale/envoimoinscher/dimensions/table.phtml">
+        <block type="adminhtml/template" name="dimensionsLine" template="boxtale/envoimoinscher/dimensions/line.phtml" />
+        <block type="envoimoinscher/Dimensions_Table" name="buttonTop" template="boxtale/envoimoinscher/dimensions/button.phtml" />	  
+	  </block>
+    </reference>
+  </envoimoinscher_dimensions_table>
+  <envoimoinscher_sales_send>
+    <reference name="root">
+      <block type="envoimoinscher/Adminhtml_Buttons_Sale_Back" name="buttonBack" template="boxtale/envoimoinscher/sales/send_back.phtml" />	  
+      <block type="core/template" name="content" template="boxtale/envoimoinscher/sales/send.phtml" />
+      <block type="adminhtml/template" name="sendship" template="boxtale/envoimoinscher/sales/submenu.phtml" />
+      <block type="adminhtml/template" name="offerTable" template="boxtale/envoimoinscher/sales/offer_table.phtml" />
+      <block type="envoimoinscher/Adminhtml_Buttons_Sale" name="buttonTop" template="boxtale/envoimoinscher/sales/send_top.phtml" />	  
+      <block type="envoimoinscher/Adminhtml_Buttons_Sale_Edit" name="buttonEdit" template="boxtale/envoimoinscher/sales/send_edit.phtml" />	  
+      <block type="envoimoinscher/Sales_Send" name="formMandatory" template="boxtale/envoimoinscher/sales/send_mandatory.phtml" />
+    </reference>
+  </envoimoinscher_sales_send>
+  <envoimoinscher_sales_get_new_offers>
+    <remove name="header"/>
+    <remove name="menu"/>
+    <block type="module/block" name="root" output="toHtml" template="boxtale/envoimoinscher/sales/new_offers.phtml">
+      <block type="adminhtml/template" name="offerTable" output="toHtml" template="boxtale/envoimoinscher/sales/offer_table.phtml" />
+    </block>
+  </envoimoinscher_sales_get_new_offers>
+  <adminhtml_sales_order_view>
+    <reference name="content">
+      <block type="envoimoinscher/sales_order_view" after="sales_order_edit" name="trackingLabels" template="boxtale/envoimoinscher/sales/order/view.phtml" />	  
+    </reference>
+  </adminhtml_sales_order_view> 
+  <envoimoinscher_labels_download>
+    <reference name="root">
+      <block type="envoimoinscher/Adminhtml_Buttons_Labels" name="buttonBack" template="boxtale/envoimoinscher/labels/buttons.phtml" />	  
+      <block type="core/template" name="content" template="boxtale/envoimoinscher/labels/download.phtml" />	  
+    </reference>
+  </envoimoinscher_labels_download> 
+  <envoimoinscher_services_table>
+    <reference name="root">
+      <block type="envoimoinscher/Adminhtml_Buttons_Labels" name="button_top" template="boxtale/envoimoinscher/services/buttons_main.phtml" />
+      <block type="core/template" name="content" template="boxtale/envoimoinscher/services/table.phtml" />	  
+      <block type="envoimoinscher/Services_Grid" name="services.grid"  ></block>
+    </reference>
+  </envoimoinscher_services_table>
+  <envoimoinscher_services_edit>
+    <reference name="root">
+      <block type="core/template" name="content" template="boxtale/envoimoinscher/services/edit.phtml" />
+      <block type="envoimoinscher/Adminhtml_Buttons_Send" name="buttonSend" template="boxtale/envoimoinscher/services/buttons.phtml" />
+    </reference>
+  </envoimoinscher_services_edit> 
+  <envoimoinscher_help_index>
+    <reference name="content">
+      <block type="core/template" template="boxtale/envoimoinscher/help/index.phtml"></block>
+    </reference>
+  </envoimoinscher_help_index>
+  <envoimoinscher_rules_configure>
+    <reference name="head">
+      <action method="addJs"><script>../skin/adminhtml/base/default/rules.js</script></action>
+    </reference>
+    <reference name="root">
+      <block type="core/template" name="content" template="boxtale/envoimoinscher/rules/configure.phtml">
+        <block type="envoimoinscher/Adminhtml_Buttons_Rules" name="buttonsRules" template="boxtale/envoimoinscher/rules/buttons.phtml" />
+        <block type="adminhtml/template" name="rulesOperators" template="boxtale/envoimoinscher/rules/operators.phtml" />
+        <!--<block type="core/template" name="content" template="boxtale/envoimoinscher/rules/configure.phtml" />-->
+	  </block>
+    </reference>
+    <reference name="left">
+      <block type="envoimoinscher/Rules_Tabs" name="rules_tabs"></block>
+    </reference>
+  </envoimoinscher_rules_configure>
+</layout>

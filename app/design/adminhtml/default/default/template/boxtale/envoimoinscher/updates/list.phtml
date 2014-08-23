@@ -1,0 +1,104 @@
+<?php
+/*
+    This file is part of EnvoiMoinsCher's shipping plugin for Magento.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/** 
+ * @category    Boxtale
+ * @package     Boxtale_Envoimoinscher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher.com
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://www.gnu.org/licenses  GNU Lesser General Public License (LGPL)
+ */
+?>
+<?php if($this->result != '' && $this->result == true) { ?>
+<div id="messages"><ul class="messages"><li class="success-msg"><ul><li><span>La mise à jour a été correctement exécutée.</span></li></ul></div>
+<?php } ?>  
+<p><b>Mises à jour des offres de transport</b></p>
+<p><a href="<?php echo $this->urloffersexecute;?>">Mettre à jour la liste des offres</a></p>
+<div id="result-update">
+<?php
+if (count($this->offersupdated) == 0 )
+{
+	if (isset($_GET['offers']))
+	{
+		echo '<p id="result-update">Aucune mise à jour des offres disponible</p>';
+	}
+}
+else
+{
+	if (isset($this->offersupdated['errors']))
+	{
+		echo '<p class="error-update">Erreur lors de la mise à jour des offres</p><ul class="error-update-list">';
+		foreach($this->offersupdated['errors'] as $error)
+		{
+			echo '<li class="error-update">'.$error.'</li>';
+		}
+		echo '</ul>';
+	}
+	else
+	{
+		if (isset($this->offersupdated['offers_added']) && count($this->offersupdated['offers_added']) > 0)
+		{
+			echo '<p class="success-update">Offres ajoutées</p><ul class="success-update-list">';
+			foreach($this->offersupdated['offers_added'] as $service)
+			{
+				echo '<li>'.$service.'</li>';
+			}
+			echo '</ul>';
+		}
+		if (isset($this->offersupdated['offers_updated']) && count($this->offersupdated['offers_updated']) > 0)
+		{
+			echo '<p class="success-update">Offres mises à jour</p><ul class="success-update-list">';
+			foreach($this->offersupdated['offers_updated'] as $service)
+			{
+				echo '<li>'.$service.'</li>';
+			}
+			echo '</ul>';
+		}
+		if (isset($this->offersupdated['offers_deleted']) && count($this->offersupdated['offers_deleted']) > 0)
+		{
+			echo '<p class="success-update">Offres supprimées</p><ul class="success-update-list">';
+			foreach($this->offersupdated['offers_deleted'] as $service)
+			{
+				echo '<li>'.$service.'</li>';
+			}
+			echo '</ul>';
+		}
+	}
+}
+?>
+</div>
+<p><b>Mises à jour SQL transférées sur le répertoire de votre boutique</b></p>
+<?php if($this->quantity > 0) { ?>
+  <p><?php echo $this->quantity;?> <?php if($this->quantity == 1) { ?>mise à jour a été détectée<?php } else { ?>mises à jour ont été détectées<?php } ?>.</p>
+  <table class="offerInfo">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Lien</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><?php echo $this->description;?></td>
+        <td><a href="<?php echo $this->urlexecute;?>">Effectuer la mise à jour</a></td>
+      </tr>
+    </tbody>
+  </table>
+<?php } else { ?>
+<p>Il n'y a pas de mises à jour SQL à effectuer.</p>
+<?php } ?>
+

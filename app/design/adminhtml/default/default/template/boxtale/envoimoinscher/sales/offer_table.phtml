@@ -1,0 +1,33 @@
+<?php if($this->fromchangeweight == 1 && count($this->offer) == 0) { ?>
+  <div id="msgChange"><ul class="messages">
+  <li class="error-msg" style="font-size:15px !important;">Aucune offre trouvée avec les nouvelles caractéristiques définies sur l'envoi</li>
+  </ul></div> 
+  <p><a href="<?php echo $this->urlsend;?>">annuler le changement</a></p>
+<?php } else { ?>
+    <p><b>Informations sur l'offre</b></p>
+    <table class="offerInfo">
+      <thead>
+        <tr>
+          <td>Transporteur</td>
+          <td>Service</td>
+          <td>Prix HT</td>
+          <td>Prix TTC</td>
+          <td>Date de collecte</td>
+          <td>Date de livraison</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><?php echo $this->offer['operator']['label'];?></td>
+          <td><?php echo $this->offer['service']['label'];?></td>
+          <td><?php echo $this->offer['price']['tax-exclusive'];?>&nbsp;€ </td>
+          <td><?php echo $this->offer['price']['tax-inclusive'];?>&nbsp;€ </td>
+          <td><?php echo date('d-m-Y', strtotime($this->offer['collection']['date']));?></td>
+          <td><?php echo date('d-m-Y', strtotime($this->offer['delivery']['date']));?></td>
+        </tr>
+      </tbody>
+    </table>
+  <?php if($this->fromchangeweight == 1) { ?>
+    <div id="msgChange" style="margin-top:20px;"><ul class="messages"><li class="notice-msg">Suite à votre modification des caractéristiques de l'envoi, le prix de l'offre a été mise à jour. Pour déclencher l'envoi avec ce nouveau tarif, appuyer une seconde fois sur le bouton "Expédier" </li></ul></div>
+  <?php } ?>
+<?php } ?>

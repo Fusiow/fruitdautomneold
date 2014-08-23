@@ -1,0 +1,82 @@
+.:
+total 84
+drwx------+ 1 bartosz mkpasswd  4096 2011-11-04 12:36 envoimoinscher
+-rwx------  1 bartosz mkpasswd 16154 2011-11-04 12:36 envoimoinscher.zip
+-rwx------  1 bartosz mkpasswd 16165 2011-11-04 12:36 envoimoinscher21062011.zip
+-rwx------  1 bartosz mkpasswd 16233 2011-11-04 12:36 envoimoinscher220062011.zip
+-rwx------  1 bartosz mkpasswd 16252 2011-11-04 12:36 envoimoinscher23062011.zip
+-rwx------  1 bartosz mkpasswd 16268 2011-11-04 12:36 envoimoinscherMATIN_.zip
+-rw-r--r--  1 bartosz mkpasswd     0 2012-04-30 11:33 files.txt
+
+./envoimoinscher:
+total 4
+drwx------+ 1 bartosz mkpasswd    0 2011-11-04 12:36 configuration
+drwx------+ 1 bartosz mkpasswd    0 2011-11-04 12:36 css
+drwx------+ 1 bartosz mkpasswd    0 2011-11-04 12:36 dimensions
+drwx------+ 1 bartosz mkpasswd    0 2011-11-04 12:36 labels
+drwx------+ 1 bartosz mkpasswd    0 2011-11-04 12:36 notifications
+drwx------+ 1 bartosz mkpasswd    0 2011-11-04 12:36 sales
+drwx------+ 1 bartosz mkpasswd 4096 2011-11-04 12:36 scale
+drwx------+ 1 bartosz mkpasswd    0 2011-11-04 12:36 services
+drwx------+ 1 bartosz mkpasswd    0 2011-11-04 12:36 tests
+drwx------+ 1 bartosz mkpasswd    0 2011-11-04 13:29 updates
+
+./envoimoinscher/configuration:
+total 4
+-rwx------ 1 bartosz mkpasswd 1100 2011-11-04 12:36 configure.phtml
+
+./envoimoinscher/css:
+total 0
+-rwx------ 1 bartosz mkpasswd 0 2011-11-04 12:36 styles.css
+
+./envoimoinscher/dimensions:
+total 12
+-rwx------ 1 bartosz mkpasswd 1500 2011-11-04 12:36 button.phtml
+-rwx------ 1 bartosz mkpasswd 3059 2011-11-04 12:36 line.phtml
+-rwx------ 1 bartosz mkpasswd 1177 2011-11-04 12:36 table.phtml
+
+./envoimoinscher/labels:
+total 8
+-rwx------ 1 bartosz mkpasswd 1262 2011-11-04 12:36 buttons.phtml
+-rwx------ 1 bartosz mkpasswd 1250 2011-11-04 12:36 download.phtml
+
+./envoimoinscher/notifications:
+total 4
+-rwx------ 1 bartosz mkpasswd 1221 2011-11-04 12:36 block.phtml
+
+./envoimoinscher/sales:
+total 28
+-rwx------  1 bartosz mkpasswd 1268 2011-11-04 12:36 buttons_main.phtml
+-rwx------  1 bartosz mkpasswd 3305 2012-04-20 09:38 index.phtml
+drwx------+ 1 bartosz mkpasswd    0 2011-11-04 12:36 order
+-rwx------  1 bartosz mkpasswd 6600 2012-04-24 11:16 send.phtml
+-rwx------  1 bartosz mkpasswd 4172 2012-01-03 13:41 send_mandatory.phtml
+-rwx------  1 bartosz mkpasswd 1263 2011-11-04 12:36 send_top.phtml
+
+./envoimoinscher/sales/order:
+total 8
+-rwx------ 1 bartosz mkpasswd 4816 2012-04-20 11:48 view.phtml
+
+./envoimoinscher/scale:
+total 20
+-rwx------ 1 bartosz mkpasswd 1254 2011-11-04 12:36 button.phtml
+-rwx------ 1 bartosz mkpasswd 7852 2012-04-19 11:08 operators.phtml
+-rwx------ 1 bartosz mkpasswd 1039 2011-11-04 12:36 save.phtml
+-rwx------ 1 bartosz mkpasswd 3749 2011-11-04 12:36 table.phtml
+
+./envoimoinscher/services:
+total 16
+-rwx------ 1 bartosz mkpasswd 1268 2011-11-04 12:36 buttons.phtml
+-rwx------ 1 bartosz mkpasswd 3209 2012-04-25 09:14 buttons_main.phtml
+-rwx------ 1 bartosz mkpasswd 2331 2012-04-19 09:51 edit.phtml
+-rwx------ 1 bartosz mkpasswd 1344 2011-11-04 12:36 table.phtml
+
+./envoimoinscher/tests:
+total 12
+-rwx------ 1 bartosz mkpasswd 1267 2011-11-04 12:36 buttons.phtml
+-rwx------ 1 bartosz mkpasswd 6431 2011-11-04 12:36 do.phtml
+
+./envoimoinscher/updates:
+total 8
+-rwx------ 1 bartosz mkpasswd 1335 2011-11-07 09:13 index.phtml
+-rwx------ 1 bartosz mkpasswd 1679 2011-11-07 09:17 list.phtml

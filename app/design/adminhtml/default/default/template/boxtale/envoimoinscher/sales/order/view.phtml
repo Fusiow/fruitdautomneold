@@ -1,0 +1,120 @@
+<?php
+/*
+    This file is part of EnvoiMoinsCher's shipping plugin for Magento.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/** 
+ * @category    Boxtale
+ * @package     Boxtale_Envoimoinscher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher.com
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://www.gnu.org/licenses  GNU Lesser General Public License (LGPL)
+ */
+?>
+<?php  $order = $this->getOrder();$refKey = $this->getOrderKey();
+  $documents = $this->getDocuments();
+  $lastClass = "";
+  $nextClassLeft = 'box-left'; // class used to manipulate boxes
+  $nextClassRight = ''; // class used to manipulate boxes
+?>
+  <?php $this->lastClass = "box-left"; ?> 
+  <div class="box-left">
+    <div class="entry-edit"><div class="entry-edit-head">
+      <h4 class="icon-head head-payment-method">Suivi de commande EnvoiMoinsCher</h4>
+    </div>
+    <fieldset>
+    <?php if(count($this->tracking) > 0) { ?>
+      <ul>
+    <?php foreach($this->tracking as $tracking) { ?>
+        <li><span><?php echo date('d-m-Y H:i', strtotime($tracking['date_et']));?></span> <span><?php echo $tracking['localisation_et'];?></span><p><?php echo $tracking['text_et'];?></p></li>
+    <?php } ?>
+      </ul>
+  <?php } ?>
+    <p>Référence EnvoiMoinsCher : <b><?php echo $order[0]["ref_emc_eor"];?></b></p>
+    <p>Référence transporteur : <b><?php echo $order[0]["ref_ope_eor"];?></b></p>
+    <?php if(isset($order[0]["tracking"]) && $order[0]["tracking"] != "") { ?><a href="<?php echo str_replace("@", $order[0][$refKey], $order[0]["tracking"]);?>" target="_blank">suivre mon colis sur le site du transporteur</a><?php } ?>
+    </fieldset></div>
+  </div>
+  <div class="<?php echo $this->getClassName(); ?>">
+    <div class="entry-edit"><div class="entry-edit-head">
+      <h4 class="icon-head head-payment-method">Les bordereaux de livraison</h4>
+    </div>
+    <fieldset>
+      <ul>
+        <li><?php if($documents['label'][0]['state'] != 1) { ?>En cours de génération<?php } else { ?><a href="<?php echo $this->getLabelLink();?>" target="_blank">Télécharger le<?php if($order[0]["parcels_eor"] > 1) {?>s<?php } ?> bordereau<?php if($order[0]["parcels_eor"] > 1) {?>x<?php } ?></a><?php } ?></li>
+      </ul>
+    </fieldset></div>
+  </div>
+  <?php echo $this->getClearDiv();?>
+  <?php if(count($documents['proforma']) > 0) { ?>
+  <div class="<?php echo $this->getClassName(); ?>">
+    <div class="entry-edit"><div class="entry-edit-head">
+      <h4 class="icon-head head-payment-method">Les factures proforma (générées par EnvoiMoinsCher)</h4>
+    </div>
+    <fieldset>
+      <ul>
+    <?php foreach($documents['proforma'] as $p => $proforma) { ?>
+        <li><a href="<?php echo $proforma['link'];?>" target="_blank">Proforma <?php echo ($p+1);?></a></li>
+    <?php } ?>
+      </ul>
+    </fieldset></div>
+  </div>
+  <?php } ?>
+  <?php echo $this->getClearDiv();?>
+  <div class="<?php echo $this->getClassName(); ?>">
+    <div class="entry-edit"><div class="entry-edit-head">
+      <h4 class="icon-head head-payment-method">Frais qui vous sont facturés par EnvoiMoinsCher</h4>
+    </div>  
+    <fieldset>  
+      <?php if(count($documents['label']) > 0) { ?> 
+        <?php $pricesEmc = $this->getPrices(); ?>
+        <p><b><?php echo $pricesEmc['ttc'];?>€</b> TTC / <b><?php echo $pricesEmc['ht'];?>€</b> HT</p>
+        <p><b>Frais facturés à votre client : </b> <?php echo (float)$this->shipping_amount;?> € TTC </p>
+	  <?php } else { ?>
+	  <p>La commande de transport EnvoiMoinsCher n'a pas été réalisée.</p> 
+	  <?php } ?>
+    </fieldset></div>
+  </div> 
+  <?php echo $this->getClearDiv();?> 
+<?php $point = $this->getParcelPoint(); if(isset($point['name'])) { ?>
+<div class="<?php echo $this->getClassName(); ?>">
+  <div class="entry-edit"><div class="entry-edit-head">
+    <h4 class="icon-head head-payment-method">Point relais d'arrivée</h4>
+  </div>
+    <fieldset>
+	  <div style="float:left; margin-right:20px;">
+      <?php echo $point['name'];?><br />
+      <?php echo $point['address'];?><br />
+      <?php echo $point['zipcode'];?>, <?php echo $point['city'];?>
+      </div>
+      <div style="float:left;">
+      <?php echo implode('<br />', Mage::helper('envoimoinscher')->parseSchedule($point['schedule']));?>
+      </div>
+    </fieldset>
+  </div>
+</div>
+<?php } ?>
+<?php echo $this->getClearDiv();?>
+<?php $parcels = $this->getParcels(); $allParcels = count($parcels); if($allParcels > 1) { ?>
+<div class="<?php echo $this->getClassName(); ?>">
+  <div class="entry-edit"><div class="entry-edit-head">
+    <h4 class="icon-head head-payment-method">Multi-colis</h4>
+  </div>
+    <fieldset> 
+  Multi-colis : <b><?php echo $allParcels;?> colis</b> (<?php foreach($parcels as $p => $parcel) { echo $parcel["weight_eop"]." kg"; if(($p+1) < $allParcels) { echo ", "; } } ?>)
+    </fieldset>
+  </div>
+</div>
+<?php } ?>

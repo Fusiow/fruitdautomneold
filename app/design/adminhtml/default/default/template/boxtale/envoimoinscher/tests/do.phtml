@@ -1,0 +1,129 @@
+<?php
+/*
+    This file is part of EnvoiMoinsCher's shipping plugin for Magento.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/** 
+ * @category    Boxtale
+ * @package     Boxtale_Envoimoinscher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher.com
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://www.gnu.org/licenses  GNU Lesser General Public License (LGPL)
+ */
+?>
+<?php echo $this->getBlockHtml('buttonSend'); ?>
+<style type="text/css">
+.offerInfo {border-collapse: collapse;}
+.offerInfo td {border:1px solid #000000; padding:5px;}
+.offerInfo thead td {font-size:12px; font-weight:bold;}
+</style>
+<script type="text/javascript">
+function doQuotation()
+{ 
+  $('loading').setStyle('display', 'block'); 
+  new Ajax.Request('<?php echo $this->link;?>', {
+    method: 'get',
+    parameters: 'product='+$('product').getValue()+'&from_zipcode='+$('from_zipcode').getValue()+'&from_city='+$('from_city').getValue()+'&from_address='+$('from_address').getValue()+'&to_country='+$('country').getValue()+'&to_zipcode='+$('to_zipcode').getValue()+'&to_city='+$('to_city').getValue()+'&to_address='+$('to_address').getValue(), 
+    onSuccess: function(result) {
+      var rsp = result.responseText.evalJSON(); 
+      if(rsp.error == "1")
+      {
+        $('msgErr').setStyle({'display': 'block'});
+        $('offers').setStyle({'display': 'none'});
+        $('msg-1').update(rsp.message);
+        $('msgErr').scrollTo();
+      }
+      else
+      {
+        $('msgErr').setStyle({'display': 'none'});
+        $('offers').setStyle({'display': 'block'});
+        $('offersBody').update('');
+        for(var i = 0; i < rsp.offers.length; i++)
+        {
+          var offer = rsp.offers[i];
+          $('offersBody').insert('<tr><td>'+offer['service']['label']+'</td><td>'+offer['operator']['label']+'</td>'+
+          '<td>'+offer['price']['tax-exclusive']+' </td><td> '+ offer['price']['tax-inclusive']+'</td>'+
+          '<td>'+offer['characteristics']+'</td>'+
+          '</tr>');
+        }
+        $('offers').scrollTo();
+      }
+    }
+  });
+  return false;
+}
+</script> 
+<div class="entry-edit">
+  La page Tests vous permet :
+  <br />- d'effectuer un devis suivant les caractéristiques de vos colis : seuls les transporteurs adaptés à vos colis vous seront proposés. Ce sont donc ces transporteurs que vous pouvez choisir pour votre boutique.
+  <br />- Le devis vous permettra aussi d'estimer les prix des offres de nos transporteurs partenaires et donc d'élaborer votre forfait fixe de frais de port (si vous souhaitez en appliquer un)
+  <br />
+  <br />
+  <div class="fieldset">
+    <form method="post" id="editForm" action="<?php echo $this->editurl;?>">
+      <table class="form-list" cellspacing="0">
+        <tr><td class="label"><label for="opeName">Choisissez un produit : </label></td>
+        <td class="value"><select name="product" id="product">
+        <?php foreach($this->products as $product) { ?>
+          <option value="<?php echo $product['entity_id'];?>"><?php echo $product['name'];?></option>
+        <?php } ?>
+        </select>
+        </td></tr>
+        <tr><td class="label"><label for="opeDesc">Code postal de départ : </label></td> <td class="value"><input type="text" name="from_zipcode" id="from_zipcode" maxlength="50" value="<?php echo $this->defaultvals['city'];?>" class="input-text" />
+        </td></tr> 
+        <tr><td class="label"><label for="opeDesc">Ville de départ : </label></td> <td class="value"><input type="text" name="from_city" id="from_city" maxlength="50" value="<?php echo $this->defaultvals['zipcode'];?>" class="input-text" />
+        </td></tr> 
+        <tr><td class="label"><label for="dest">Adresse de départ : </label></td> <td class="value"><input type="text" name="from_address" id="from_address" maxlength="50" value="<?php echo $this->defaultvals['address'];?>" class="input-text" />
+        </td></tr>
+        <tr><td class="label"><label for="opeName">Pays de destination : </label></td>
+        <td class="value"><select name="country" id="country">
+        <?php foreach($this->countlabels as $l => $label) { ?>
+          <option value="<?php echo $l;?>" <?php if($l == "FR") {?>selected="selected"<?php } ?>><?php echo $label;?></option>
+        <?php } ?>
+        </select>
+        </td></tr>
+        <tr><td class="label"><label for="dest">Code postal d'arrivée: </label></td> <td class="value"><input type="text" name="to_zipcode" id="to_zipcode" maxlength="50" class="input-text" />
+        </td></tr>
+        <tr><td class="label"><label for="dest">Ville d'arrivée: </label></td> <td class="value"><input type="text" name="to_city" id="to_city" maxlength="50"  class="input-text" />
+        </td></tr>
+        <tr><td class="label"><label for="dest">Adresse d'arrivée: </label></td> <td class="value"><input type="text" name="to_address" id="to_address" maxlength="50" class="input-text" />
+        </td></tr>
+      </table>
+    </form>
+  </div>
+</div> 
+<div id="loading" style="display:none;"><b><img src="<?php echo $this->getSkinUrl('images/ajax-loader-tr.gif') ?>" class="v-middle" /> Veuillez patienter...</b></div>
+<div id="msgErr" style="display:none;"><ul class="messages">
+  <li id="msg-1" class="error-msg"></li>
+</div>
+  </li>
+</ul></div>
+<div id="offers" style="display:none;">
+  <p><b>Les offres</b></p>
+  <table class="offerInfo">
+    <thead>
+      <tr>
+        <td style="width:100px;">Offre</td>
+        <td style="width:100px;">Transporteur</td>
+        <td style="width:100px;">Prix HT €</td>
+        <td style="width:100px;">Prix TTC €</td>
+        <td>Description</td>
+      </tr>
+    </thead>
+    <tbody id="offersBody">
+      
+    </tbody>
+  </table>
+</div>

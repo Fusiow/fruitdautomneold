@@ -1,0 +1,46 @@
+<?php
+/**
+ * LaPoste_SoColissimoSimplicite
+ *
+ * @category  LaPoste
+ * @package   LaPoste_SoColissimoSimplicite
+ * @copyright Copyright (c) 2010 La Poste
+ * @author    Smile (http://www.smile.fr)
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+/* @var $this Mage_Core_Block_Template */
+?>
+<?php /* @var $_helper LaPoste_SoColissimoSimplicite_Helper_Data */ ?>
+<?php $_helper = $this->helper('socolissimosimplicite'); ?>
+
+<?php if ($_helper->isActive()): ?>
+<script type="text/javascript">
+//<![CDATA[
+    (function() {
+        <?php // personnalisation de l'affichage du mode de livraison So Colissimo ?>
+        var socoInput = $(<?php echo json_encode('s_method_' . $_helper->getRateCode()); ?>);
+        if (socoInput !== null) {
+            var socoLabel = socoInput.next('label');
+            if (typeof socoLabel !== 'undefined') {
+                <?php // format du prix de livraison ?>
+                <?php $_priceFormat = $_helper->getShippingPriceFormat(); ?>
+                <?php if ($_priceFormat && $_helper->checkServiceAvailability()): ?>
+                var socoPrice = socoLabel.down('.price');
+                if (typeof socoPrice !== 'undefined') {
+                    socoPrice.update(<?php echo json_encode($_priceFormat); ?>.replace('%s', socoPrice.innerHTML));
+                }
+                <?php endif; ?>
+
+                <?php // message d'indisponibilité de la plateforme ?>
+                <?php if (!$_helper->checkServiceAvailability()): ?>
+                socoLabel.insert({after: <?php echo json_encode('<ul class="messages" id="socolissimo-error"><li class="error-msg"><ul><li>' . $_helper->getServiceNotAvailableMessage() . '</li></ul></li></ul>'); ?>});
+                <?php endif; ?>
+
+                <?php // description du mode du livraison?>
+                socoLabel.insert({after: <?php echo json_encode('<p>' . $_helper->getSelectMessage() . '</p>'); ?>});
+            }
+        }
+    })();
+//]]>
+</script>
+<?php endif; ?>

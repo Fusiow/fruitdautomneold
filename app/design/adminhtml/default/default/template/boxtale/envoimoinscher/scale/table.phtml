@@ -1,0 +1,86 @@
+<?php
+/*
+    This file is part of EnvoiMoinsCher's shipping plugin for Magento.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/** 
+ * @category    Boxtale
+ * @package     Boxtale_Envoimoinscher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher.com
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://www.gnu.org/licenses  GNU Lesser General Public License (LGPL)
+ */
+?>
+<script type="text/javascript">
+function showHide(input, operator)
+{
+  $('prices_'+operator).removeClassName('hidden');
+  if($(input).getValue() == 0)
+  {
+    $('prices_'+operator).addClassName('hidden');
+  }
+}
+
+function showUnit(toShow, toHide)
+{
+  var elements = document.getElementsByClassName(toShow); 
+  for(var i=0; i < elements.length; i++) 
+  {
+    elements[i].removeClassName('hidden');
+  }
+
+  var elements = document.getElementsByClassName(toHide);
+  for(var i=0; i < elements.length; i++) 
+  {
+    elements[i].addClassName('hidden');
+  }
+  $('input_'+toHide).setValue('hidden');
+  $('input_'+toShow).setValue('');
+}
+
+function addNewLine(container, codeOpe, zone, counter)
+{
+  var linesInc = parseInt($('lines_'+container).getValue());
+  var lineTpl = new Template('<tr id="#{i}_line_#{code}_#{p}">' +
+            '<td><label><span class="#{code}_#{p}_kg #{weightClass}">Poids </span><span class="#{code}_#{p}_euro #{priceClass}">Valeur de la commande</span> jusqu\'à <input type="text" name="value_#{code}_#{p}_#{i}" id="value_#{code}_#{p}_#{i}" class="smallInput input-text" /> <span class="#{code}_#{p}_kg #{weightClass}">kg</span> <span class="#{code}_#{p}_euro #{priceClass}">€</span> </label></td>' +
+            '<td><label style="margin-right:10px;">Prix de transport  <input type="text" name="price_#{code}_#{p}_#{i}" id="price_#{code}_#{p}_#{i}" class="smallInput input-text" /> € </label>' +
+            '<a href="#" onclick="javascript:removeLine(\'#{i}_line_#{code}_#{p}\');return false;" style="text-decoration:none;" title="Supprimer cette ligne"><img src="<?php echo $this->getSkinUrl('images/icon_btn_delete.gif') ?>" class="v-middle" title="Supprimer cette ligne" /> supprimer cette ligne</a>'+
+          '</td></tr>');
+  var show = {i: linesInc, code: codeOpe, p: zone, weightClass : $('input_'+codeOpe+'_'+zone+'_kg').getValue(), priceClass : $('input_'+codeOpe+'_'+zone+'_euro').getValue()};
+  var genTemplate = lineTpl.evaluate(show);
+  $('lines_'+container).setValue((linesInc+1));
+  $('table_'+container).insert(genTemplate);
+  return false;
+}
+ 
+function removeLine(lineId)
+{
+  $(lineId).remove();  
+}
+</script>
+<?php if($this->showscalemsg) { ?>
+<div id="messages"><ul class="messages"><li class="success-msg"><ul><li><span>La grille tarifaire a été mise à jour.</span></li></ul></li></ul></div>
+<?php } ?>
+  
+<form action="<?php echo $this->link; ?>" method="post" id="scale_form" enctype="multipart/form-data">
+ 
+<?php echo $this->getBlockHtml('buttonTop')?> 
+ <script type="text/javascript">
+    var editForm = new varienForm('scale_form');
+</script>
+
+
+<?php echo $this->getBlockHtml('formkey')?>
+</form>

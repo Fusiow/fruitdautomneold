@@ -1,0 +1,45 @@
+<?php
+/*
+    This file is part of EnvoiMoinsCher's shipping plugin for Magento.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/** 
+ * @category    Boxtale
+ * @package     Boxtale_Envoimoinscher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher.com
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://www.gnu.org/licenses  GNU Lesser General Public License (LGPL)
+ */
+?>
+<ul>
+  <li><b>Veuillez choisir le point de retrait de votre colis. Vous pouvez visualiser les point relais sur <a href="#" id="openMap" onclick="javascript:makeMap('<?php echo $this->ope;?>', '<?php echo $this->id;?>');return false;">cette carte</a></b></li>
+<?php foreach($this->points as $p => $point) { ?>
+  <?php if($point['code'] != '') { ?>
+    <li>- <input type="radio" id="point<?php echo $this->id;?><?php echo $point['code'];?>" name="point" value="<?php echo $point['code'];?>" />  <b><?php echo $point['name'];?></b> <small>(<?php echo $point['address'];?>, <?php echo $point['zipcode'];?> <?php echo $point['city'];?>)</small>
+    <?php $addresses[] = $point['address'].', '.$point['zipcode'].' '.$point['city'];
+    $day = Mage::helper('envoimoinscher')->parseSchedule($point['schedule']);
+    $infos[] = implode('<br />', $day);
+    $names[] = $point['name'];
+    $ids[] = "point".$this->id.$point['code'];
+    ?>
+    </li>
+  <?php } ?>
+<?php } ?>
+</ul>
+<input type="hidden" name="isParcelPoint<?php echo $this->id;?><?php echo $this->ope;?>" id="isParcelPoint<?php echo $this->id;?><?php echo $this->ope;?>" value="1" />
+<input type="hidden" name="parcelPoints<?php echo $this->id;?><?php echo $this->ope;?>" id="parcelPoints<?php echo $this->id;?><?php echo $this->ope;?>" value="<?php echo implode('|', $addresses);?>" />
+<input type="hidden" name="parcelInfos<?php echo $this->id;?><?php echo $this->ope;?>" id="parcelInfos<?php echo $this->id;?><?php echo $this->ope;?>" value="<?php echo implode('|', $infos);?>" />
+<input type="hidden" name="parcelNames<?php echo $this->id;?><?php echo $this->ope;?>" id="parcelNames<?php echo $this->id;?><?php echo $this->ope;?>" value="<?php echo implode('|', $names);?>" />
+<input type="hidden" name="parcelIds<?php echo $this->id;?><?php echo $this->ope;?>" id="parcelIds<?php echo $this->id;?><?php echo $this->ope;?>" value="<?php echo implode('|', $ids);?>" />  

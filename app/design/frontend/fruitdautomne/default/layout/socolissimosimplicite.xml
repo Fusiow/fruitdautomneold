@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * LaPoste_SoColissimoSimplicite
+ * 
+ * @category  LaPoste
+ * @package   LaPoste_SoColissimoSimplicite
+ * @copyright Copyright (c) 2010 La Poste
+ * @author    Smile (http://www.smile.fr)
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<layout version="0.1.0">
+    <checkout_cart_index>
+        <reference name="content">
+            <!-- personnalise l'affichage du mode de livraison So Colissimo (dans le bloc d'estimation des frais de port) -->
+            <block type="core/template" name="shippingmethod.socolissimosimplicite" template="socolissimosimplicite/onepage/shipping_method/socolissimosimplicite.phtml" after="iframe.socolissimosimplicite" />
+        </reference>
+    </checkout_cart_index>
+
+    <checkout_onepage_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/socolissimosimplicite/shipping_method.js</name></action>
+        </reference>
+
+        <reference name="content">
+            <!-- gère le chargement de l'IFrame So Colissimo -->
+            <block type="socolissimosimplicite/iframe" name="iframe.socolissimosimplicite" template="socolissimosimplicite/iframe.phtml" after="checkout.onepage" />
+            <!-- personnalise l'affichage du mode de livraison So Colissimo (lors du rechargement du onepage après la validation de l'IFrame) -->
+            <block type="core/template" name="shippingmethod.socolissimosimplicite" template="socolissimosimplicite/onepage/shipping_method/socolissimosimplicite.phtml" after="iframe.socolissimosimplicite" />
+        </reference>
+    </checkout_onepage_index>
+
+    <checkout_onepage_shippingmethod>
+        <!-- personnalise l'affichage du mode de livraison So Colissimo (lors du chargement en AJAX de l'étape livraison) -->
+        <block type="core/template" name="root.socolissimosimplicite" output="toHtml" template="socolissimosimplicite/onepage/shipping_method/socolissimosimplicite.phtml" after="root" />
+    </checkout_onepage_shippingmethod>
+
+    <socolissimosimplicite_form_send>
+        <reference name="root">
+            <action method="setTemplate"><template>socolissimosimplicite/empty.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="socolissimosimplicite/form" name="form.socolissimosimplicite" template="socolissimosimplicite/form.phtml" />
+        </reference>
+    </socolissimosimplicite_form_send>
+
+    <socolissimosimplicite_form_failure>
+        <reference name="content">
+            <block type="core/template" name="failure.socolissimosimplicite" template="socolissimosimplicite/form/failure.phtml" />
+        </reference>
+    </socolissimosimplicite_form_failure>
+</layout>

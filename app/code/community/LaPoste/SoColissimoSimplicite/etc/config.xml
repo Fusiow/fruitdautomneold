@@ -1,0 +1,229 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * LaPoste_SoColissimoSimplicite
+ * 
+ * @category  LaPoste
+ * @package   LaPoste_SoColissimoSimplicite
+ * @copyright Copyright (c) 2010 La Poste
+ * @author    Smile (http://www.smile.fr)
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <LaPoste_SoColissimoSimplicite>
+            <version>2.3.2</version>
+        </LaPoste_SoColissimoSimplicite>
+    </modules>
+
+    <global>
+        <blocks>
+            <socolissimosimplicite>
+                <class>LaPoste_SoColissimoSimplicite_Block</class>
+            </socolissimosimplicite>
+
+            <checkout>
+                <rewrite>
+                    <onepage>LaPoste_SoColissimoSimplicite_Block_Onepage</onepage>
+                </rewrite>
+            </checkout>
+        </blocks>
+
+        <models>
+            <socolissimosimplicite>
+                <class>LaPoste_SoColissimoSimplicite_Model</class>
+                <resourceModel>socolissimosimplicite_mysql4</resourceModel>
+            </socolissimosimplicite>
+
+            <socolissimosimplicite_mysql4>
+                <class>LaPoste_SoColissimoSimplicite_Model_Mysql4</class>
+                <entities>
+                    <transaction>
+                        <table>laposte_socolissimosimplicite_transaction</table>
+                    </transaction>
+                </entities>
+            </socolissimosimplicite_mysql4>
+        </models>
+
+        <helpers>
+            <socolissimosimplicite>
+                <class>LaPoste_SoColissimoSimplicite_Helper</class>
+            </socolissimosimplicite>
+        </helpers>
+
+        <resources>
+            <socolissimosimplicite_setup>
+                <setup>
+                    <module>LaPoste_SoColissimoSimplicite</module>
+                     <class>Mage_Sales_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </socolissimosimplicite_setup>
+
+            <socolissimosimplicite_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </socolissimosimplicite_read>
+
+            <socolissimosimplicite_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </socolissimosimplicite_write>
+        </resources>
+    </global>
+
+    <frontend>
+        <secure_url>
+            <socolissimosimplicite>/socolissimosimplicite</socolissimosimplicite>
+        </secure_url>
+
+        <layout>
+            <updates>
+                <socolissimosimplicite module="LaPoste_SoColissimoSimplicite">
+                    <file>socolissimosimplicite.xml</file>
+                </socolissimosimplicite>
+            </updates>
+        </layout>
+
+        <translate>
+            <modules>
+                <LaPoste_SoColissimoSimplicite>
+                    <files>
+                        <default>LaPoste_SoColissimoSimplicite.csv</default>
+                    </files>
+                </LaPoste_SoColissimoSimplicite>
+            </modules>
+        </translate>
+
+        <routers>
+            <socolissimosimplicite>
+                <use>standard</use>
+                <args>
+                    <module>LaPoste_SoColissimoSimplicite</module>
+                    <frontName>socolissimosimplicite</frontName>
+                </args>
+            </socolissimosimplicite>
+        </routers>
+
+        <events> 
+            <controller_action_layout_load_before>
+                <observers>
+                    <laposte_socolissimosimplicite_observer>
+                        <type>singleton</type>
+                        <class>socolissimosimplicite/observer</class>
+                        <method>setShippingAddressWithSoColissimoAddress</method>
+                    </laposte_socolissimosimplicite_observer>
+                </observers>
+            </controller_action_layout_load_before>
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <laposte_socolissimosimplicite_observer>
+                        <type>singleton</type>
+                        <class>socolissimosimplicite/observer</class>
+                        <method>clearCheckoutSession</method>
+                    </laposte_socolissimosimplicite_observer>
+                </observers>
+            </checkout_onepage_controller_success_action>
+               <checkout_type_onepage_save_order>
+                <observers>
+                    <laposte_socolissimosimplicite_observer>
+                        <type>singleton</type>
+                        <class>socolissimosimplicite/observer</class>
+                        <method>addSocoAttributesToOrder</method>
+                      </laposte_socolissimosimplicite_observer>
+                </observers>
+            </checkout_type_onepage_save_order>
+        </events>
+    </frontend>
+
+    <adminhtml>
+        <translate>
+            <modules>
+                <LaPoste_SoColissimoSimplicite>
+                    <files>
+                        <default>LaPoste_SoColissimoSimplicite.csv</default>
+                    </files>
+                </LaPoste_SoColissimoSimplicite>
+            </modules>
+        </translate>
+    </adminhtml>
+
+    <default>
+        <carriers>
+            <socolissimosimplicite>
+                <active>0</active>
+                <title>La Poste</title>
+                <name>So Colissimo</name>
+                <name_home>So Colissimo</name_home>
+                <name_appointment>So Colissimo - Sur rendez-vous</name_appointment>
+                <name_pickup>So Colissimo - Point retrait</name_pickup>
+                <name_post_office>So Colissimo - Point retrait</name_post_office>
+                <selectmessage>Avec So Colissimo, choisissez votre mode de livraison préféré !</selectmessage>
+                <redirectmessage>Vous allez voir apparaitre les options So Colissimo dans un instant...</redirectmessage>
+                <account></account>
+                <encryption_key></encryption_key>
+                <url_fo>http://ws.colissimo.fr/pudo-fo-frame/storeCall.do</url_fo>
+                <active_service_is_available>1</active_service_is_available>
+                <url_service_is_available>http://ws.colissimo.fr/supervision-pudo-frame/supervision.jsp</url_service_is_available>
+                <not_available_message>La plateforme technique So Colissimo est temporairement indisponible. Votre commande sera livrée à l'adresse de livraison que vous venez d'indiquer.</not_available_message>
+                <amountbasetype>fixed</amountbasetype>
+                <amountbasetype_pickup>fixed</amountbasetype_pickup>
+                <max_weight>30</max_weight>
+                <specificcountry>FR</specificcountry>
+                <sallowspecific>1</sallowspecific>
+                <model>LaPoste_SoColissimoSimplicite_Model_Carrier_ShippingMethod</model>
+                <!-- association entre les civilités utilisées dans Magento et celles utilisées dans So Colissimo -->
+                <mapprefix>
+                    <![CDATA[
+{
+"MR":"M."
+,"MLE":"Mlle"
+,"MME":"Mme"
+}
+                    ]]>
+                </mapprefix>
+                <!-- langues disponibles dans l'interface So Colissimo -->
+                <!-- l'IFrame So Colissimo utilisera la même langue que Magento si celle-ci fait partie de la liste ci-dessous -->
+                <!-- n'intégrer dans cette liste que les langues connues de So Colissimo (pour l'instant, uniquement le français) -->
+                <available_languages>
+                    <FR/>
+                </available_languages>
+                <!-- actions et contrôleurs où il y a recalcul des frais d'expédition après l'utilisation de l'IFrame -->
+                <shipping_price_calculations>
+                    <onepage_index>
+                        <controller>onepage</controller>
+                        <action>index</action>
+                    </onepage_index>
+                    <onepage_payment>
+                        <controller>onepage</controller>
+                        <action>savePayment</action>
+                    </onepage_payment>
+                    <onepage_order>
+                        <controller>onepage</controller>
+                        <action>saveOrder</action>
+                    </onepage_order>
+                </shipping_price_calculations>
+                <!-- url vers laquelle l'internaute est redirigé lors d'une erreur -->
+                <redirect_url_on_error>checkout/onepage</redirect_url_on_error>
+                <!-- codes des points de retrait commerçants (utilisé pour détecter si l'internaute en a sélectionné un) -->
+                <pickup_codes>
+                    <A2P /> <!-- FR -->
+                    <CMT /> <!-- BE -->
+                </pickup_codes>
+                <!-- codes des points de retrait de type bureau de poste (idem) -->
+                <post_office_codes>
+                    <BPR /> <!-- FR -->
+                    <CIT /> <!-- BE -->
+                    <ACP /> <!-- BE -->
+                    <CDI /> <!-- BE -->
+                    <BDP /> <!-- BE -->
+                </post_office_codes>
+            </socolissimosimplicite>
+        </carriers>
+    </default>
+</config>

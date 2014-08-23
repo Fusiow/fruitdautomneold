@@ -1,0 +1,82 @@
+<?php
+/*
+    This file is part of EnvoiMoinsCher's shipping plugin for Magento.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/** 
+ * @category    Boxtale
+ * @package     Boxtale_Envoimoinscher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher.com
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://www.gnu.org/licenses  GNU Lesser General Public License (LGPL)
+ */
+?>
+<style type="text/css">
+.smallInput {width:50px;}
+.form-list label {padding-left:10px;}
+.form-list td {padding-bottom:6px;}
+.hidden {display:none;}
+</style>
+
+<div class="entry-edit">
+  <div class="fieldset">
+    <p>Pour chaque transporteur sélectionné sur la page de configuration du module, indiquez si vous souhaitez que les offres de livraison s'affichent suivant leur prix réel ou suivant un forfait fixe. Dans le cas d'un forfait fixe, vous devrez le déterminer suivant le poids ou le montant total de la commande</p>
+    <h3><?php echo $this->service['label']; ?> (<?php echo $this->service['operator'];?>)</h3>
+    <p><?php echo $this->service['desc']; echo (int)$this->service['pricing'];?></p>
+    <p><span>Afficher les prix selon</span> 
+      <label><input type="radio" name="type_<?php echo $this->code;?>" value="0" <?php if($this->service['pricing'] == 0) { ?>checked="checked"<?php } ?> onclick="javascript:showHide(this, '<?php echo $this->code;?>');" />suivant le prix réel</label> 
+      <label><input type="radio" name="type_<?php echo $this->code;?>" value="1" <?php if($this->service['pricing'] == 1) { ?>checked="checked"<?php } ?> onclick="javascript:showHide(this, '<?php echo $this->code;?>');" />suivant un forfait fixe</label>
+    </p>
+    <div id="prices_<?php echo $this->code;?>" <?php if($this->service['pricing'] == 0) { ?>class="hidden"<?php } ?>>
+  <?php foreach($this->zones as $z => $zone) { $classPrice = 'hidden'; $classWeight = 'hidden'; $val = 'display'.strtolower($zone['code_ez']); ?>
+    <?php if((bool)$this->$val == true) { ?>
+      <div id="price_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>">
+        <p><b>Tarifs : <?php echo $zone['name_ez'];?></b></p> 
+        <p><span>Forfait à définir selon</span> 
+          <label><input type="radio" name="def_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>" value="0" <?php if(isset($this->prices[$zone['id_ez']][0]['type']) && (int)$this->prices[$zone['id_ez']][0]['type'] == 0) { $classPrice = 'hidden'; $classWeight = ''; ?>checked="checked"<?php } ?> onclick="javascript:showUnit('<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>_kg', '<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>_euro');" />le poids</label> 
+          <label><input type="radio" name="def_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>" value="1" <?php if(isset($this->prices[$zone['id_ez']][0]['type']) && (int)$this->prices[$zone['id_ez']][0]['type'] == 1) { $classWeight = 'hidden'; $classPrice = ''; ?>checked="checked"<?php } ?> onclick="javascript:showUnit('<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>_euro', '<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>_kg');" />le montant total de la commande</label>
+        </p>
+        <p><span>Si le prix réel dépasse le prix facturé au client :</span>
+          <select name="profitability_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>">
+            <?php foreach($this->profitabilities as $p => $profitability) { ?>
+            <option value="<?php echo $p;?>" <?php if(isset($this->prices[$zone['id_ez']][0]['profitability']) && ((int)$this->prices[$zone['id_ez']][0]['profitability'] == $p)) {?>selected="selected"<?php } ?>><?php echo $profitability;?></option>
+            <?php } ?>
+          </select>
+        </p>
+        <table id="table_price_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>" class="form-list" cellspacing="0">
+      <?php $prices = array(); if(isset($this->prices[$zone['id_ez']])) { $prices = $this->prices[$zone['id_ez']]; } $prCount = count($prices); if($prCount == 0) { $prCount = 5; }
+      for($i=0; $i < $prCount; $i++) { ?>
+          <tr id="<?php echo $i;?>_line_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>">
+            <td><label><span class="<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>_kg <?php if(isset($this->prices[0]['type_eshz']) && (int)$this->prices[0]['type_eshz'] == 1) { ?>hidden<?php } ?>">Poids </span><span class="<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>_euro <?php if(isset($this->prices[0]['type_eshz']) && (int)$this->prices[0]['type_eshz'] == 0) { ?>hidden<?php } ?>">Valeur de la commande</span> jusqu'à <input type="text" name="value_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>_<?php echo $i;?>" id="value_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>_<?php echo $i;?>" class="smallInput input-text" value="<?php if(isset($prices[$i]['value'])) { echo $prices[$i]['value']; }?>" /> <span class="<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>_kg <?php if(isset($this->prices[0]['type_eshz']) && (int)$this->prices[0]['type_eshz'] == 1) { ?>hidden<?php } ?>">kg</span> <span class="<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>_euro <?php if(isset($this->prices[0]['type_eshz']) && (int)$this->prices[0]['type_eshz'] == 0) { ?>hidden<?php } ?>">€</span> </label></td>
+            <td><label style="margin-right:10px;">Prix de transport  <input type="text" name="price_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>_<?php echo $i;?>" id="price_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>_<?php echo $i;?>" class="smallInput input-text"  value="<?php if(isset($prices[$i]['price'])) { echo $prices[$i]['price']; } ?>" /> € </label>
+       <?php if($i > 0) { ?>
+              <a href="#" onclick="javascript:removeLine('<?php echo $i;?>_line_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>');return false;" style="text-decoration:none;" title="Supprimer cette ligne"><img src="<?php echo $this->getSkinUrl('images/icon_btn_delete.gif') ?>" class="v-middle" title="Supprimer cette ligne" /> supprimer cette ligne</a>
+       <?php } ?>
+            </td>
+          </tr>
+      <?php } ?>
+        </table>
+      </div>
+      <p>
+        <input type="hidden" name="input_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>_euro" id="input_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>_euro" value="<?php echo $classPrice;?>" />
+        <input type="hidden" name="input_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>_kg" id="input_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>_kg" value="<?php echo $classWeight;?>" />
+        <input type="hidden" name="lines_price_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>" id="lines_price_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>" value="<?php echo $i;?>" /> 
+        <a href="#" class="addLine" onclick="javascript:addNewLine('price_<?php echo $this->code;?>_<?php echo $zone['code_ez'];?>', '<?php echo $this->code;?>', '<?php echo $zone['code_ez'];?>', 'type_<?php echo $this->code;?>'); return false;"><b>+</b> Ajouter une ligne</a>
+      </p>
+    <?php } ?>
+  <?php } ?>  
+    </div>
+  </div>
+</div>

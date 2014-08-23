@@ -1,0 +1,105 @@
+<?php
+/*
+    This file is part of EnvoiMoinsCher's shipping plugin for Magento.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/** 
+ * @category    Boxtale
+ * @package     Boxtale_Envoimoinscher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher.com
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://www.gnu.org/licenses  GNU Lesser General Public License (LGPL)
+ */
+?>
+<script type="text/javascript">
+function checkUpdates()
+{
+  new Ajax.Request("<?php echo Mage::getUrl('envoimoinscher/updates/operators', array());?>",
+  {
+    evalScripts : true,
+    onSuccess : function(rsp) 
+    {
+      var res = rsp.responseText.evalJSON();
+      var textPlus = "";
+      if(res.added > 0 || res.updated > 0 || res.deleted > 0)
+      {
+        textPlus = " <b>Les mises à jour décrites ci-dessus ont bien été appliquées. Pour les afficher, veuillez rafraîchir la page. Si nécessaire les offres ont aussi été mis à jour sur la page configuration (offres ajoutées/supprimées) : nous vous recommandons de vérifier vos offres actives après chaque mise à jour.</b>";
+      }
+      var sentAdded = "("+res.addedOffers+")";
+      if(res.addedOffers == "") sentAdded = "";
+      var sentUpdated = "("+res.updatedOffers+")";
+      if(res.updatedOffers == "") sentUpdated = "";
+      var sentDeleted = "("+res.deletedOffers+")";
+      if(res.deletedOffers == "") sentDeleted = "";
+      $('resultCarrierUpdate').removeClassName('hidden');
+      $('resultCarrierUpdate').innerHTML = " Offres ajoutées : <b>[" + res.added + "]</b> "+sentAdded+" <br /> Offres supprimées  : <b>[" + res.deleted + "]</b> "+sentDeleted+" <br />  Offres actualisées : <b>[" + res.updated + "]</b> "+sentUpdated+" <br />" + textPlus;
+    },
+    onFailure: function()
+    {
+      alert("Une erreur s'est produite. Veuillez réessayer.");
+    }
+  });
+}
+Event.observe(window, 'load', function() {
+  new Ajax.Request("<?php echo Mage::getUrl('envoimoinscher/updates/check', array());?>",
+  {
+    evalScripts : true,
+    onSuccess : function(rsp) 
+    {
+      var res = rsp.responseText.evalJSON();
+      if(res.length > 0)
+      {
+        $('updatesList').setStyle({display: "block"});
+        $('opeUpdate').setStyle({display: "block"});
+      }
+      for(var i=0; i < res.length; i++)
+      {
+        var tableContent = document.getElementById("updatesTable").innerHTML;
+        document.getElementById("updatesTable").innerHTML = tableContent + "<tr><td>"+res[i].version+"</td><td>"+res[i].name+"</td><td>"+
+        res[i].description+'</td><td><a href="'+res[i].url+'" target="_blank">'+res[i].url+"</a></td></tr>";
+      }
+    }
+  });
+});
+</script>
+<div class="content-header">
+  <table cellspacing="0">
+    <tr>
+      <td><h3>Mises à jour</h3></td>
+      <td class="form-buttons"></td>
+    </tr>
+  </table>
+</div>
+<p><b>Cette page vous permet de gérer les mises à jour du module. Lisez tout d'abord le tableau d'information qui vous indique toutes les instructions à suivre</b></p>
+<div id="resultCarrierUpdate" class="hidden"></div>
+<br />
+<div id="updatesList" style="display:none;"><p style="color: green; font-weight:bold;">De nouvelles mises à jour ont été trouvées.</p>
+  <p><b>Tableau d'information sur les nouvelles mises à jour à effectuer : description et instructions</b></p>
+  <table class="offerInfo">
+    <thead>
+      <tr>
+        <th>Version</th>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Lien</th>
+      </tr>
+    </thead>
+    <tbody id="updatesTable"></tbody>
+  </table>
+</div>
+<br />
+<p id="opeUpdate" style="display:none;">> <a href="#" onclick="javascript: checkUpdates(); return false;">Vérifier les mises à jour sur les offres de transport</a></p>
+<br />
+<?php echo $this->getBlockHtml('list'); ?>

@@ -1,0 +1,58 @@
+<?php
+/*
+    This file is part of EnvoiMoinsCher's shipping plugin for Magento.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/** 
+ * @category    Boxtale
+ * @package     Boxtale_Envoimoinscher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher.com
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://www.gnu.org/licenses  GNU Lesser General Public License (LGPL)
+ */
+?>
+<style type="text/css">
+.lined {margin-top:20px; padding-top:10px; border-top:1px dashed #000;}
+</style>
+<script type="text/javascript">
+var template = new Template('<p class="lined"><strong>#{IDinc}e offre</strong></p><p><input type="checkbox" name="delete[#{SERVICE}][#{ID}]" onclick="javascript:deleteOffer(\'#{SERVICE}#{ID}\', this);" id="delete_#{SERVICE}#{ID}" value="1"/> <label for="delete_#{SERVICE}#{ID}">supprimer l\'offre</label></p><table id="table_#{SERVICE}#{ID}"><tr><td><label for="value_#{SERVICE}#{ID}">Valeur de la réduction <br /> à appliquer sur les frais de port :</label></td><td>'+
+'<input name="value[#{SERVICE}][#{ID}]" id="value#{SERVICE}#{ID}" />  <select name="type[#{SERVICE}][#{ID}]" id="type_#{SERVICE}#{ID}">'+
+<?php foreach($this->types as $t => $type) { ?>
+'<option value="<?php echo $t;?>"><?php echo $type;?>&nbsp;</option>'+
+<?php } ?>
+'</select></td></tr><tr><td><label for="amount_from_#{SERVICE}#{ID}">'+
+'Montant de la commande pour <br />laquelle s\'appliquera l\'opération:</label></td><td>'+
+'de <input name="amount_from[#{SERVICE}][#{ID}]" id="amount_from#{SERVICE}#{ID}" />'+
+'à <input name="amount_to[#{SERVICE}][#{ID}]" id="amount_to#{SERVICE}#{ID}" /> €</td></tr><tr><td>'+
+'<label for="geo0_#{SERVICE}#{ID}">Valable pour les expéditions :</label></td><td>'+
+<?php foreach($this->geo as $g => $geo) { ?>
+'<p><label><input type="radio" name="geo[#{SERVICE}][#{ID}]" id="geo<?php echo $g;?>_#{SERVICE}#{ID}" value="<?php echo $g;?>" /> <?php echo $geo;?></label></p>'+
+<?php } ?>
+'</td></tr><tr><td><label for="valid_#{SERVICE}#{ID}">Validité :</label></td><td>'+
+'de <input name="valid_from[#{SERVICE}][#{ID}]" id="valid_from#{SERVICE}#{ID}" onblur="javascript:checkFormat(\'valid_from#{SERVICE}#{ID}\');" />à <input name="valid_to[#{SERVICE}][#{ID}]" id="valid_to#{SERVICE}#{ID}" onblur="javascript:checkFormat(\'valid_to#{SERVICE}#{ID}\');" /><br />Format de date : <strong>DD-MM-AAAA HH:MM</strong> = pour 20/09/2011 10h30 ce sera <strong>20-09-2011 10:30</strong></td></tr></table>');
+</script>
+<?php echo $this->getBlockHtml('buttonsRules'); ?>
+<?php if($this->ruleresult == 1) { ?>
+<div id="messages"><ul class="messages"><li class="success-msg"><ul><li><span>Les offres promotionnelles ont été rajoutées.</span></li></ul></li></ul></div>
+<?php } elseif($this->ruleresult == 2) { ?>
+<div id="messages"><ul class="messages"><li class="error-msg"><ul><li><span>Les offres promotionnelles n'ont pas été rajoutées. Veuillez vérifier le format des dates.</span></li></ul></li></ul></div>
+<?php } ?>
+<form action="<?php echo $this->formlink; ?>" method="post" id="rules_form" enctype="multipart/form-data">
+  
+  <script type="text/javascript">var editForm = new varienForm('rules_form');</script>
+  
+  
+  <?php echo $this->getBlockHtml('formkey')?>
+</form>

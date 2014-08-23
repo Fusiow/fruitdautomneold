@@ -1,0 +1,16 @@
+.shipsSend {border:1px solid black; padding:20px;}
+.shipsSend {font-size:14px;}.offerInfo {border-collapse: collapse;}
+.offerInfo td {border:1px solid #000000; padding:5px;}
+.offerInfo thead td {font-size:12px; font-weight:bold;}
+
+.mandatoryTable tr td.label {padding-bottom:5px;}
+.mandatoryTable tr td.input {padding-left:10px;}
+
+.success-update-list{font-weight:bold;}
+.success-update-list li{margin-left:25px;list-style-type:square}
+.error-update{color:red;}
+.success-update{color:green;}
+
+.biggerFont li {font-size:12px !important;}
+.withStyleSquare {list-style-position: inside; list-style-type: square;}
+#result-update{margin-bottom:25px;}

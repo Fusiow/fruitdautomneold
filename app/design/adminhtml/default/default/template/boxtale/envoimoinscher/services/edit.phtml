@@ -1,0 +1,53 @@
+<?php
+/*
+    This file is part of EnvoiMoinsCher's shipping plugin for Magento.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/** 
+ * @category    Boxtale
+ * @package     Boxtale_Envoimoinscher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher.com
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://www.gnu.org/licenses  GNU Lesser General Public License (LGPL)
+ */
+?>
+<?php echo $this->getBlockHtml('buttonSend'); ?>
+
+<?php if($this->isedited) { ?>
+<div id="messages"><ul class="messages"><li class="success-msg"><ul><li><span>Les données ont été mises à jour.</span></li></ul></li></ul></div>
+<?php } ?>
+<p><b>Vous pouvez personnaliser l'affichage des offres de transport sur l'écran de commande où votre client en sélectionne un. </b></p>
+
+<div class="entry-edit">
+  <div class="fieldset">
+    <form method="post" id="editForm" action="<?php echo $this->editurl;?>">
+      <table class="form-list" cellspacing="0">
+
+        <tr><td class="label"><label for="srvName">Nom du service (site) : </label></td>
+        <td class="value"><input type="text" name="srvName" id="srvName" maxlength="100" value="<?php echo $this->service['label_store_es'];?>" class="input-text" />
+        </td></tr>
+        <tr><td class="label"><label for="srvDesc">Description (site) : </label></td> <td class="value"><input type="text" name="srvDesc" id="srvDesc" maxlength="150" value="<?php echo $this->service['desc_store_es'];?>" class="input-text" />
+        <tr><td class="label"><label for="srvTracking">URL de suivi : </label></td> <td class="value"><input type="text" name="srvTracking" id="srvTracking" maxlength="150" value="<?php echo $this->service['tracking_es'];?>" class="input-text" />
+        <p><small>URL pour le suivi des envois, tapez '@' à la place du numéro</small></p>
+        </td></tr>
+<?php echo $this->getBlockHtml('formkey')?> 
+
+      </table>
+    </form>
+  </div>
+</div>
+<script type="text/javascript"> 
+var editForm = new varienForm('editForm');
+</script>

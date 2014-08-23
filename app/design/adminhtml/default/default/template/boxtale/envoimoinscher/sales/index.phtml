@@ -1,0 +1,50 @@
+<?php
+/*
+    This file is part of EnvoiMoinsCher's shipping plugin for Magento.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/** 
+ * @category    Boxtale
+ * @package     Boxtale_Envoimoinscher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher.com
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://www.gnu.org/licenses  GNU Lesser General Public License (LGPL)
+ */
+?>
+<?php echo $this->getBlockHtml('sendship')?>
+<?php if((string)$this->orderref != "") { ?>
+<div id="messages"><ul class="messages">
+<li class="success-msg"><ul><li><span>
+  Votre commande a été réalisée sous référence : <?php echo $this->orderref;?>
+.</span></li></ul></li></ul></div>
+<?php } ?> 
+<?php echo $this->getBlockHtml('envoimoinscher_sales.emc.grid.container')?>
+<p>Voici les commandes pour lesquelles votre acheteur a choisi un transporteur EMC à l'étape "frais de port" sur votre boutique en ligne. Le transporteur EMC est déjà défini : vous
+pouvez expédier ces commandes dès maintenant sans avoir à les compléter. Mais si vous souhaitez utiliser le multi-colis sur une commande, vous devez l'envoyer manuellement en cliquant sur "Expédier" en dernière colonne. Toute commande traitée
+sera classée dans l'historique, parfois après rafraîchissement de la page.</p>
+<?php echo $this->getBlockHtml('envoimoinscher_sales.emc.grid')?><br /><br />
+<?php echo $this->getBlockHtml('envoimoinscher_sales_noemc.grid.container')?>
+<p>Voici les commandes pour lesquelles aucun transporteur EMC n'est sélectionné. Si vous souhaitez en expédier avec notre module, vous devrez pour chacune d'entre elles sélectionner le transporteur EMC avant déclenchement de l'envoi.</p>
+<?php echo $this->getBlockHtml('envoimoinscher_sales_noemc.grid')?><br /><br />
+<?php echo $this->getBlockHtml('envoimoinscher_sales_errors.grid.container')?>
+<p>Voici les commandes pour lesquelles il existe :</p>
+<p>- Des informations manquantes : l'offre de transport choisie par votre acheteur n'est plus
+disponible par exemple</p>
+<p>- Des erreurs de validation : numéro de téléphone du destinataire incorrect, etc.</p>
+<p>Pour pouvoir expédier les commandes, vous devrez les compléter ou les corriger. Pour cela, vous
+passerez automatiquement par l'écran de vérification des informations de chaque envoi. Dans le cas
+où l'offre n'est plus disponible, vous pourrez sélectionner une nouvelle offre de transport qui
+remplacera l'ancienne (n'oubliez pas d'en informer votre client), etc.</p>
+<?php echo $this->getBlockHtml('envoimoinscher_sales_errors.grid')?>

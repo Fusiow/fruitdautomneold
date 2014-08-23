@@ -1,0 +1,187 @@
+<?php
+/*
+    This file is part of EnvoiMoinsCher's shipping plugin for Magento.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/** 
+ * @category    Boxtale
+ * @package     Boxtale_Envoimoinscher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher.com
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://www.gnu.org/licenses  GNU Lesser General Public License (LGPL)
+ */
+?>
+<script type="text/javascript">
+var modified = false;
+var baseWeight = "<?php echo $this->weight;?>";
+function blurWeight()
+{
+  if($("multiParcel").getValue() != "") makeParcels();
+}
+function makeParcels()
+{
+  modified = false;
+  var elements = $$('tr.appendrow');
+  for(var i=0; i < elements.length; i++)
+  {
+    $(elements[i]).remove();
+  }
+  $("errorMultiParcel").hide();
+  if($("multiParcel").getValue() == "") return false;
+  var nr = parseInt($("multiParcel").getValue());
+  if(""+nr == "NaN" || nr < 2)
+  {
+    $("errorMultiParcel").show();
+    return false;
+  }
+  $("multiParcel").setValue(nr);
+  var weight = parseFloat($("weight").getValue());
+  var weightByField = roundFloat(parseFloat(weight/nr), 2);
+  for(var i=nr; i > 0; i--)
+  {
+    var htmlRow = '<tr class="appendrow"><td class="label"><label for="parcel'+i+'">Colis #'+i+'</label></td>'+
+    '<td class="input"><input type="text" name="parcel[]" id="parcel'+i+'" value="'+weightByField+'" onblur="javascript: modifWeight();" /> kg</td>'+
+    '</tr>';
+    new Insertion.After("multiParcelRow", htmlRow);
+    // $("#multiParcelRow").after(htmlRow);
+  }
+  modified = true;
+}
+function modifWeight()
+{
+  var weightSum = 0;
+  var nr = parseInt($("multiParcel").getValue());  
+  for(var i=nr; i > 0; i--)
+  {
+    weightSum = weightSum + roundFloat(parseFloat($("parcel"+i).getValue()), 2);
+  }
+  $("weight").setValue(roundFloat(weightSum, 2));
+}
+function roundFloat(num, dec) {
+  return Math.round(num*Math.pow(10,dec))/Math.pow(10,dec);
+}
+function deployDelivery()
+{
+  $("delivery").show();
+}
+function openPopupEmc(who)
+{
+var country = $('pays_'+who).getValue();
+var cp = $('cp_'+who).getValue();
+var ville = $('ville_'+who).getValue();
+<?php if($this->offer['operator']['code'] == "SOGP") { ?>
+window.open("<?php echo $this->emcurl;?>/magento_rc.html?fcp=&fadr=&fvil=&TypeLiv=REL&type=Exp&isMagento=true","emcwindow","scrollbars=1, resizable=1,width=650,height=680");
+<?php } elseif($this->offer['operator']['code'] == "MONR") { ?>
+window.open("<?php echo $this->emcurl;?>/modules_monr.html?isMagento=true&isModule=true&monrCp="+cp+"&monrVille="+ville+"&monrPays="+country+"&monrPoids=<?php echo $this->order['weight'];?>","emcwindow","scrollbars=1, resizable=1,width=650,height=680");
+<?php } ?>
+}
+</script>
+<?php if($this->alreadypassed == 1) { ?>
+<?php echo $this->getBlockHtml('buttonBack');?>
+<div id="msg"><ul class="messages"><li class="error-msg" style="font-size:15px !important;">
+L'envoi a déjà été passé pour cette commande. Si vous avez des questions, contactez le service après vente d'EnvoiMoinsCher au numéro
+01 75 77 37 97.
+</li></ul></div> 
+<?php } else { ?>
+  <?php if(count($this->offer) > 0) { ?>
+    <?php echo $this->getBlockHtml('buttonTop');?>
+  <?php } elseif(count($this->offer) == 0 && count($this->offers) > 0) { ?>
+    <?php echo $this->getBlockHtml('buttonBack');?>
+  <?php } else { ?>
+    <?php echo $this->getBlockHtml('buttonEdit');?>
+  <?php } ?>
+<?php if($this->errormessage != "") { ?>
+  <div id="msg"><ul class="messages">
+  <li class="error-msg" style="font-size:15px !important;"><?php if($this->errortype == "order") { ?>Votre commande n'a pas été correctement expédiée. Veuillez corriger les erreurs suivantes :<?php } else { ?>
+  Afin d'obtenir une liste des offres, veuillez corriger les erreurs suivantes :<?php } ?></li>
+     <li class="error-msg"><?php echo $this->errormessage;?></li>
+  </ul></div> 
+<?php } ?>
+<?php echo $this->getBlockHtml('sendship');?>
+<br />
+<h2 id="orderHeader">Commande numéro <?php echo $this->orderid;?></h2>
+  <div id="boxOffers" class="box-left">
+  <?php if(count($this->offer) > 0) { ?>
+  <div id="offerBox">
+<?php echo $this->getBlockHtml('offerTable');?>
+  </div><!-- offerBox-->
+  <br />
+  <?php } else { ?>
+  <div id="msg"><ul class="messages"><li class="error-msg" style="font-size:15px;">
+  <?php if($this->isnotemc) { ?>L'offre choisie par votre client sur cette commande n'est pas une offre du module EnvoiMoinsCher. Cette page vous permet de la remplacer par une offre EnvoiMoinsCher : sélectionnez-en une ci-dessous parmi celles que les transporteurs EnvoiMoinsCher proposent (prévenez votre client du changement de l'offre) afin de l'appliquer pour l'expédition de cette commande.
+  <?php } else { ?>L'offre choisie par votre client n'est plus disponible. Vous pouvez en sélectionner une nouvelle (prévenez votre client du changement de l'offre) ou réessayer plus tard.
+  <?php } ?>
+  </li></ul></div>
+  <p><b>L'offre sélectionnée par le client : </b> <?php echo $this->customerofferlabel;?></p>
+  <p><b>Les nouvelles offres</b></p>
+    <table class="offerInfo">
+    <thead>
+      <tr>
+        <td>Transporteur</td>
+        <td>Service</td>
+        <td>Prix HT</td>
+        <td>Prix TTC</td>
+        <td>Prix facturé<br />au client TTC</td>
+        <td>Date de collecte</td>
+        <td>Date de livraison</td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+    <?php foreach($this->offers as $offer) { ?>
+      <tr>
+        <td><?php echo $offer['operator']['label'];?></td>
+        <td><?php echo $offer['service']['label'];?></td>
+        <td><?php echo $offer['price']['tax-exclusive'];?>&nbsp;€ </td>
+        <td><?php echo $offer['price']['tax-inclusive'];?>&nbsp;€ </td>
+        <td><?php echo (float)$this->order['shipping_amount'];?>&nbsp;€ </td>
+        <td><?php echo date('d-m-Y', strtotime($offer['collection']['date']));?></td>
+        <td><?php echo date('d-m-Y', strtotime($offer['delivery']['date']));?></td>
+        <td><a href="<?php echo Mage::getUrl('envoimoinscher/sales/replace', array('order_id' => $this->orderid, 'key' => $this->secret, 'offer' => $offer['operator']['code'].'_'.$offer['service']['code']));?>" style="font-size:10px;">remplacer par cette offre</a></td>
+      </tr>
+    <?php } ?>
+    </tbody>
+  </table>
+  <br />
+  <?php } ?>
+  <p><b>Informations sur le destinataire</b></p>
+  <table class="offerInfo">
+    <thead>
+      <tr>
+        <td>Nom Prénom</td>
+        <td>Adresse</td>
+        <td>Ville</td>
+        <td>Adresse e-mail</td>
+        <td>Numéro de téléphone</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><?php echo $this->customer['nom'];?> <?php echo $this->customer['prenom'];?></td>
+        <td><?php echo $this->customer['adresse'];?></td>
+        <td><?php echo $this->customer['code_postal'];?> <?php echo $this->customer['ville'];?></td>
+        <td><?php echo $this->customer['email'];?></td>
+        <td><?php echo $this->customer['tel'];?></td>
+      </tr>
+    </tbody>
+  </table>
+  <?php if(count($this->offer) > 0 || (count($this->offer) == 0 && count($this->offers) == 0)) { ?><p><b>></b> <a href="#delivery" onclick="javascript:deployDelivery();">modifier les informations sur le destinataire</a></p><?php } ?>
+  </div>  
+  <?php if(count($this->offer) > 0 || (count($this->offer) == 0 && count($this->offers) == 0)) { ?>
+  <div class="box-right">
+    <?php echo $this->getBlockHtml('formMandatory');?>
+  </div>  
+  <?php } ?>
+<?php } ?>

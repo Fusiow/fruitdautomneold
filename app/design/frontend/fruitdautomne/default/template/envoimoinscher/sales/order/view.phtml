@@ -1,0 +1,71 @@
+<?php
+/*
+    This file is part of EnvoiMoinsCher's shipping plugin for Magento.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/** 
+ * @category    Boxtale
+ * @package     Boxtale_Envoimoinscher
+ * @copyright   Copyright (c) 2011 EnvoiMoinsCher.com
+ * @author 	    EnvoiMoinsCher (http://www.envoimoinscher.com)
+ * @license     http://www.gnu.org/licenses  GNU Lesser General Public License (LGPL)
+ */
+?>
+<?php $order = $this->getOrder(); $refKey = $this->getOrderKey();?>
+<?php if((isset($order[0][$refKey]) && $order[0][$refKey] != "") || count($this->tracking) > 0) { ?>
+<div class="col1-set order-info-box">
+  <div class="box-title"><h2>Le suivi</h2></div>
+  <?php if(isset($order[0][$refKey]) && $order[0][$refKey] != "") { ?>
+  <fieldset>
+    <?php if(isset($order[0]["tracking"]) && $order[0]["tracking"] != "") { ?><a href="<?php echo str_replace("@", $order[0][$refKey], $order[0]["tracking"]);?>" target="_blank">suivre mon colis sur le site du transporteur</a><?php } ?>
+    <p>Référence de suivi : <b><?php echo $order[0][$refKey];?></b></p>
+  </fieldset>
+  <?php } ?>
+  <?php if(count($this->tracking) > 0) {  ?>
+  <ul>
+    <?php foreach($this->tracking as $tracking) { ?>
+      <li>
+        <?php $cmdState = ''; if(($cmdState = Mage::helper('envoimoinscher')->getLabel($tracking['state_et'])) != '') { ?><b><?php echo ucfirst($cmdState);?></b><br /><?php } ?>
+        <span><?php echo date('d-m-Y H:i', strtotime($tracking['date_et']));?></span> : 
+        <span><?php echo $tracking['localisation_et'];?></span>
+        <p><?php echo $tracking['text_et'];?></p>
+      </li>
+    <?php } ?>
+  </ul>
+  <?php } ?>
+</div>
+<?php } ?>
+<?php $point = $this->getParcelPoint(); if(isset($point['name'])) { ?>
+<div class="col2-set order-info-box">
+<div class="box-title"><h2>Point relais d'arrivée</h2></div>
+<fieldset>
+	<div style="float:left; margin-right:20px;">
+      <?php echo $point['name'];?><br />
+      <?php echo $point['address'];?><br />
+      <?php echo $point['zipcode'];?>, <?php echo $point['city'];?>
+      <br /><br /><p><b>Horaires d'ouverture</b></p>
+      <table>
+        <tbody>
+          <tr>
+      <?php foreach(Mage::helper('envoimoinscher')->parseSchedule($point['schedule']) as $d => $day) { ?>
+          <td style="padding:10px;"><?php echo $day;?></td>
+      <?php } ?>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</fieldset>
+</div>
+<?php } ?>
